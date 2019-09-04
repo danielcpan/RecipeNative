@@ -3,74 +3,72 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import RecipesScreen from '../screens/RecipesScreen';
+import SearchScreen from '../screens/SearchScreen';
+import FavoritesScreen from '../screens/FavoritesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-const HomeStack = createStackNavigator(
+const RecipesStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Recipes: RecipesScreen,
   },
   config
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+RecipesStack.navigationOptions = {
+  tabBarLabel: 'Recipes',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+        Platform.OS === 'ios' ? `ios-book` : 'md-book'
       }
     />
   ),
 };
 
-HomeStack.path = '';
+RecipesStack.path = '';
 
-const LinksStack = createStackNavigator(
+const SearchStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Search: SearchScreen,
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+SearchStack.navigationOptions = {
+  tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} />
   ),
 };
 
-LinksStack.path = '';
+SearchStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const FavoritesStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Favorites: FavoritesScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+FavoritesStack.navigationOptions = {
+  tabBarLabel: 'Favorites',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-heart' : 'md-favorites'} />
   ),
 };
 
-SettingsStack.path = '';
+FavoritesStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+  RecipesStack,
+  SearchStack,
+  FavoritesStack,
 });
 
 tabNavigator.path = '';
