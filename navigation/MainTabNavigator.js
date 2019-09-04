@@ -25,7 +25,7 @@ RecipesStack.navigationOptions = {
     <TabBarIcon
       focused={focused}
       name={
-        Platform.OS === 'ios' ? `ios-book` : 'md-book'
+        Platform.OS === 'ios' ? 'ios-book' : 'md-book'
       }
     />
   ),

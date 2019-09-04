@@ -1,0 +1,10 @@
+// LINK_ACTIONS
+export const GET_RECIPE = 'GET_RECIPE';
+export const GET_RECIPES = 'GET_RECIPES';
+
+// SNACKBAR_ACTIONS
+// export const DISPLAY_SNACKBAR = 'DISPLAY_SNACKBAR';
+// export const HANDLE_CLOSE = 'HANDLE_CLOSE';
+
+// ERROR_ACTIONS
+export const RESET_ERRORS = 'RESET_ERRORS';
