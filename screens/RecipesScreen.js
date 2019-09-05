@@ -6,14 +6,16 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  ImageBackground,
   // Text,
   // TouchableOpacity,
   View,
   Dimensions
 } from 'react-native';
+// import StarRating from 'react-native-star-rating';
 
 import { Container, Tab, Tabs, List, Content, ListItem, Thumbnail, Text, Left, Body, Right, Icon } from 'native-base';
-
+import RecipeList from '../components/RecipeList';
 import { getRecipes } from '../actions/recipeActions';
 
 const RecipesScreen = props => {
@@ -38,85 +40,27 @@ const RecipesScreen = props => {
 
   return (
     <Container>
-      {/* <Content> */}
-      {/* <Content onScroll={debounce(({ nativeEvent }) => {
-        // if (isCloseToBottom(nativeEvent)) {
-            // setParams({ ...params, skip: params.skip += 15})
-            // getRecipes(params)
-            // console.log(params)
-            console.log("closeTobottom!")
-        // }
-      }, 1000)}> */}
-      {/* <Content onScroll={e => {
-        // console.log(e.nativeEvent)
-        // e.persist()
-        if (debounce(isCloseToBottom(e.nativeEvent), 500)) {
-            setParams({ ...params, skip: params.skip += 15})
-            getRecipes(params)
-            // console.log(params)
-            console.log("closeTobottom!")
-        }
-      }}> */}
-      <Image source={{uri: 'https://images.summitmedia-digital.com/yummyph/images/2016/08/01/IG-main.jpg'}} style={styles.hero} />
-      {/* <Content> */}
+    {/* // <View style={{ display: 'flex', justifyContent: 'center' }}> */}
+      <View style={{backgroundColor: 'black'}}>
+        <ImageBackground source={{uri: 'https://images.summitmedia-digital.com/yummyph/images/2016/08/01/IG-main.jpg'}} style={styles.hero}>
+          <View>
+            <Text style={{color: 'white'}}>Hello</Text>
+          </View>
+        </ImageBackground>
+      </View>
       <Tabs initialPage={0}>
-        <Tab heading="This Weeks">
-          <FlatList 
-            data={[...recipes]}
-            // keyExtractor={(x, i) => i}
-            onEndReached={() => handleEnd()}
-            onEndReachedThreshold={0}
-            ListFooterComponent={() => <ActivityIndicator size='large' animating/>}
-            renderItem={({ item }) => (
-              <ListItem thumbnail noBorder key={item.nameId} style={{height: 75}}>
-                <Left>
-                  <Thumbnail square source={{ uri: item.thumbnailUrl }} style={{ borderRadius: 10 }}/>
-                </Left>
-                <Body>
-                  <Text style={{fontWeight: 'bold'}}>{item.titleMain}</Text>
-                  <Text note numberOfLines={1}>{item.titleSub}</Text>
-                </Body>
-                <Right>
-                  {(item.cookTimeMins) && (
-                    <>
-                      <Icon name={Platform.OS === 'ios' ? 'ios-time' : 'md-time'} />
-                      <Text>{item.cookTimeMins} min</Text>
-                    </>
-                  )}
-                </Right>
-              </ListItem>              
-            )}
-          />
-          {/* <Content style={{display: 'relative', flex: 0}}> */}
-          {/* <List>
-            {recipes.map(recipe => (
-              <ListItem thumbnail noBorder key={recipe.nameId} style={{height: 75}}>
-                <Left>
-                  <Thumbnail square source={{ uri: recipe.thumbnailUrl }} style={{ borderRadius: 10 }}/>
-                </Left>
-                <Body>
-                  <Text style={{fontWeight: 'bold'}}>{recipe.titleMain}</Text>
-                  <Text note numberOfLines={1}>{recipe.titleSub}</Text>
-                </Body>
-                <Right>
-                  {(recipe.cookTimeMins) && (
-                    <>
-                      <Icon name={Platform.OS === 'ios' ? 'ios-time' : 'md-time'} />
-                      <Text>{recipe.cookTimeMins} min</Text>
-                    </>
-                  )}
-                </Right>
-              </ListItem>
-            ))}
-          </List> */}
-          {/* </Content> */}
-        </Tab>
         <Tab heading="Featured">
+          <RecipeList 
+            data={recipes}
+            handleEnd={handleEnd}
+          />
         </Tab>
-        <Tab heading="Most Popular">
+        <Tab heading="Popular">
+        </Tab>
+        <Tab heading="New">
         </Tab>
       </Tabs>
-      {/* </Content> */}
+      {/* </View> */}
     </Container>
   );
 }
@@ -129,6 +73,8 @@ const styles = StyleSheet.create({
   hero: {
     height: 0.20 * Dimensions.get("window").height,
     // height: 50,
+    opacity: 0.5,
+    // backgroundColor: 'black',
     width: null, 
     // flex: 1
   },
