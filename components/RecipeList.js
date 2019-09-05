@@ -1,18 +1,20 @@
 import React from 'react';
 import StarRating from 'react-native-star-rating';
-
 import {
-  Image,
   Platform,
   FlatList,
-  StyleSheet,
   ActivityIndicator,
-  ImageBackground,
   View,
-  Dimensions
 } from 'react-native';
-
-import { Container, Tab, Tabs, List, Content, ListItem, Thumbnail, Text, Left, Body, Right, Icon } from 'native-base';
+import { 
+  ListItem, 
+  Thumbnail, 
+  Text, 
+  Left, 
+  Body, 
+  Right, 
+  Icon 
+} from 'native-base';
 
 const RecipeList = props => {
   const { data, handleEnd } = props;
