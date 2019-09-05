@@ -10,7 +10,7 @@ const config = require('../config/config')[env];
 
 export const getRecipe = recipeNameId => async dispatch => {
   try {
-    const response = await axios.get(`${config.API_URL}/api/recipes/${recipeNameId}`);
+    const response = await axios.get(`${config.API_URL}/api/recipes/${recipeNameId}?`);
     dispatch({
       type: GET_RECIPE,
       payload: response.data,
@@ -23,9 +23,10 @@ export const getRecipe = recipeNameId => async dispatch => {
   }
 };
 
-export const getRecipes = () => async dispatch => {
+export const getRecipes = params => async dispatch => {
   try {
-    const response = await axios.get(`${config.API_URL}/api/recipes`);
+    // console.log(params)
+    const response = await axios.get(`${config.API_URL}/api/recipes`, { params });
     dispatch({
       type: GET_RECIPES,
       payload: response.data,

@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
     case GET_RECIPES:
       return {
         ...state,
-        cookBook: action.payload,
+        cookBook: [...state.cookBook, ...action.payload],
       };
     default:
       return state;
