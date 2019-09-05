@@ -31,7 +31,6 @@ const RecipesScreen = props => {
 
   return (
     <Container>
-    {/* // <View style={{ display: 'flex', justifyContent: 'center' }}> */}
       <View style={{backgroundColor: 'black'}}>
         <ImageBackground source={{uri: 'https://images.summitmedia-digital.com/yummyph/images/2016/08/01/IG-main.jpg'}} style={styles.hero}>
           <View>
@@ -51,7 +50,6 @@ const RecipesScreen = props => {
         <Tab heading="New">
         </Tab>
       </Tabs>
-      {/* </View> */}
     </Container>
   );
 }

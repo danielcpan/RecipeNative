@@ -24,9 +24,7 @@ RecipesStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios' ? 'ios-book' : 'md-book'
-      }
+      name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'}
     />
   ),
 };
@@ -43,7 +41,10 @@ const SearchStack = createStackNavigator(
 SearchStack.navigationOptions = {
   tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} />
+    <TabBarIcon 
+      focused={focused} 
+      name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} 
+    />
   ),
 };
 
@@ -59,15 +60,19 @@ const FavoritesStack = createStackNavigator(
 FavoritesStack.navigationOptions = {
   tabBarLabel: 'Favorites',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-heart' : 'md-favorites'} />
+    <TabBarIcon 
+      focused={focused} 
+      name={Platform.OS === 'ios' ? 'ios-heart' : 'md-favorites'} 
+    />
   ),
 };
 
 FavoritesStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  RecipesStack,
   SearchStack,
+  RecipesStack,
+  // SearchStack,
   FavoritesStack,
 });
 
