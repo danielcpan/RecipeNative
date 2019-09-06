@@ -1,63 +1,105 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import theme from '../constants/Styles';
-import { ScrollView, View, StyleSheet, Dimensions } from 'react-native';
-// import { ExpoLinksView } from '@expo/samples';
+import StarRating from 'react-native-star-rating';
+import { ScrollView, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { 
-  Container, 
-  Tab, 
-  Tabs, 
+  Container,  
   Text,
-  Input,
-  Item,
-  Grid,
-  Row, 
   Icon,
-  Form,
-  H2,
-  H3,
-  H1
+  Card,
+  CardItem,
+  Body,
+  Thumbnail,
+  Right
 } from 'native-base';
 import SearchInput from '../components/SearchInput';
+import RecipeList from '../components/RecipeList';
+import { getAllRecipes, getMostLikedRecipes } from '../actions/recipeActions';
 
-const { width } = Dimensions.get('window');
 
 const SearchScreen = props => {
+  const [params, setParams] = useState({
+    skip: 0,
+    limit: 15,
+  })  
+  const { recipes, mostLikedRecipes, getAllRecipes, getMostLikedRecipes } = props;
+  // console.log(mostLikedRecipes)
+  
+  useEffect(() => {
+    // getAllRecipes(params);
+    getMostLikedRecipes(params);
+  }, [])
+
+  const handleEnd = () => {
+    // setParams({ ...params, skip: params.skip += 15})
+    // getAllRecipes(params)
+  }  
 
   return (
-    <Container style={{color: '#b4a584'}}>
-      <View style={styles.header}>
+    <ScrollView>
+      <View style={styles.container}>
         <Text style={styles.headerTitle}>Search</Text>
       </View>
-      <SearchInput />
+
       <View style={styles.container}>
-        <View style={styles.header}>
+        <SearchInput />
+      </View>
+
+      <View>
+        <View style={styles.container}>
           <Text style={styles.subHeaderTitle}>Most Liked Recipes</Text>
         </View>
+
         <ScrollView 
-          // ref={(scrollView) => { this.scrollView = scrollView; }}
-          style={styles.cardList}
           showsHorizontalScrollIndicator={false}
-          // style={{overflow: 'hidden'}}
-          //pagingEnabled={true}
           horizontal= {true}
-          // decelerationRate={0}
-          // snapToInterval={width - 60}
-          // snapToAlignment={"center"}
-          // contentInset={{
-          //   top: 0,
-          //   left: 30,
-          //   bottom: 0,
-          //   right: 30,
-          // }}
-          >
-          <View style={styles.view} />
-          <View style={styles.view2} />
-          <View style={styles.view} />
-          <View style={styles.view2} />
-          <View style={styles.view} />
+          style={styles.cardList}
+        >
+          {mostLikedRecipes.map((item, idx) => (
+            // <TouchableOpacity key={item._id}>
+            <Card transparent>
+              <CardItem cardBody>
+                <View style={styles.cardImageContainer}>
+                  <Thumbnail 
+                    square 
+                    source={{ uri: item.thumbnailUrl }} 
+                    style={styles.cardImage}
+                  />
+                </View>
+              </CardItem>
+              <CardItem>
+                <Body style={styles.card}>
+                  <Text numberOfLines={1} style={styles.cardTitle}>Miso-Grilled Auberingedasddsas</Text>
+                  <View style={styles.starRating}>
+                    <StarRating
+                      disabled={true}
+                      maxStars={5}
+                      rating={item.ratingValue || 4.5}
+                      starSize={10}
+                      fullStarColor={theme.fullStarColor}
+                    />
+                  </View>
+                </Body>
+              </CardItem>
+            </Card>
+            // </TouchableOpacity>
+          ))}
         </ScrollView>
       </View>
-    </Container>
+      <View>
+        <View style={styles.container}>
+          <View style={styles.listHeader}>
+            <Text style={styles.subHeaderTitle}>Popular</Text>
+            <Text style={{ fontSize: theme.fontSizeXs, fontWeight: theme.fontWeightLight}}>SEE MORE</Text>
+          </View>
+        </View>
+        <RecipeList 
+          data={recipes}
+          handleEnd={handleEnd}
+          />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -86,44 +128,66 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizeSm,
     fontWeight: theme.fontWeightHeavy,    
   },
-  search: {
-    ...theme.padding(5, 15, 5, 15),
-  },
-  searchItem: {
-    borderRadius: 10,
-    height: 40,
-  },
   cardList: {
-    paddingLeft: 7.5
+    ...theme.padding(0, 0, 0, 15),
   },
   container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-    zIndex: 100
+    ...theme.padding(7.5, 15, 7.5, 15),
   },
   view: {
-    // marginTop: 100,
-    backgroundColor: 'blue',
-    // width: width - 80,
-    width: 175,
-    margin: 10,
-    // height: 200,
-    height: 135,
-    borderRadius: 10,
-    //paddingHorizontal : 30
+    ...theme.margin(7.5, 10),
+    backgroundColor: theme.primaryBackgroundColor,
+    width: 165,
+    height: 124,
+    borderRadius: theme.borderRadiusMedium,
   },
   view2: {
-    // marginTop: 100,
-    backgroundColor: 'red',
-    // width: width - 80,
-    width: 175,
-    margin: 10,
-    // height: 200,
-    height: 135,
-    borderRadius: 10,
-    //paddingHorizontal : 30
-  },  
+    ...theme.margin(7.5, 10),
+    backgroundColor: theme.secondaryBackgroundColor,
+    width: 165,
+    height: 124,
+    borderRadius: theme.borderRadiusMedium,
+  },
+  card: {
+    marginLeft: -theme.spacingLg,
+  },
+  cardImageContainer: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  cardImage: {
+    borderRadius: 10, 
+    height: 124, 
+    width: 165
+  },
+  cardTitle: {
+    fontSize: theme.fontSizeXs,
+    width: 165
+  },
+  starRating: {
+    flexDirection: 'row'
+  },
+  listHeader: {
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    flexDirection: 'row'
+  }
 });
 
-export default SearchScreen;
+const mapStateToProps = state => ({
+  recipes: state.recipes.cookBook,
+  mostLikedRecipes: state.recipes.mostLikedRecipes,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getAllRecipes: params => dispatch(getAllRecipes(params)),
+  getMostLikedRecipes: params => dispatch(getMostLikedRecipes(params))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen);

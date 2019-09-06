@@ -3,30 +3,32 @@ import { connect } from 'react-redux';
 import {
   StyleSheet,
   ImageBackground,
-  // Text,
-  // TouchableOpacity,
   View,
   Dimensions
 } from 'react-native';
-
-import { Container, Tab, Tabs, Text } from 'native-base';
+import { 
+  Container, 
+  Tab, 
+  Tabs, 
+  Text 
+} from 'native-base';
 import RecipeList from '../components/RecipeList';
-import { getRecipes } from '../actions/recipeActions';
+import { getAllRecipes } from '../actions/recipeActions';
 
 const RecipesScreen = props => {
   const [params, setParams] = useState({
     skip: 0,
     limit: 15,
   })
-  const { recipes, getRecipes } = props;
+  const { recipes, getAllRecipes } = props;
 
   useEffect(() => {
-    getRecipes(params);
+    getAllRecipes(params);
   }, [])
 
   const handleEnd = () => {
     setParams({ ...params, skip: params.skip += 15})
-    getRecipes(params)
+    getAllRecipes(params)
   }
 
   return (
@@ -71,7 +73,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRecipes: params => dispatch(getRecipes(params))
+  getAllRecipes: params => dispatch(getAllRecipes(params))
 });
 
-export default connect( mapStateToProps, mapDispatchToProps)(RecipesScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesScreen);

@@ -22,12 +22,12 @@ const RecipeList = props => {
   return (
     <FlatList 
     data={[...data]}
-    keyExtractor={(x, i) => x._id}
+    keyExtractor={x => x._id}
     onEndReached={() => handleEnd()}
     onEndReachedThreshold={0}
-    ListFooterComponent={() => <ActivityIndicator size='large' animating/>}
+    ListFooterComponent={() => <ActivityIndicator animating/>}
     renderItem={({ item }) => (
-      <ListItem thumbnail noBorder key={item.nameId} style={{height: 75}}>
+      <ListItem thumbnail noBorder style={{height: 75}}>
         <Left>
           <Thumbnail square source={{ uri: item.thumbnailUrl }} style={{ borderRadius: 10, height: 60, width: 60 }}/>
         </Left>

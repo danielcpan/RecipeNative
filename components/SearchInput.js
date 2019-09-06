@@ -11,9 +11,9 @@ import {
 const SearchInput = props => {
 
   return (
-    <View style={styles.search}>
+    <View>
       <Form>
-        <Item regular style={styles.searchItem}>
+        <Item regular style={styles.search}>
           <Icon active name='search' />
           <Input placeholder='Search' />
         </Item>
@@ -24,13 +24,7 @@ const SearchInput = props => {
 
 const styles = StyleSheet.create({
   search: {
-    paddingLeft: theme.spacingLg,
-    paddingRight: theme.spacingLg,
-    paddingTop: theme.spacingSm,
-    paddingBottom: theme.spacingSm,
-  },
-  searchItem: {
-    borderRadius: 10,
+    borderRadius: theme.borderRadiusMedium,
     height: 40,
     backgroundColor: theme.secondaryBackgroundColor,
     borderColor: 'transparent'

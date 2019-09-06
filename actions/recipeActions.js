@@ -2,7 +2,10 @@ import axios from 'axios';
 
 import {
   GET_RECIPE,
-  GET_RECIPES,
+  GET_ALL_RECIPES,
+  GET_MOST_LIKED_RECIPES,
+  GET_POPULAR_RECIPES,
+  GET_NEW_RECIPES,
 } from '../constants/actionTypes';
 
 const env = process.env.NODE_ENV || 'development';
@@ -23,17 +26,31 @@ export const getRecipe = recipeNameId => async dispatch => {
   }
 };
 
-export const getRecipes = params => async dispatch => {
+export const getAllRecipes = params => async dispatch => {
   try {
-    // console.log(params)
     const response = await axios.get(`${config.API_URL}/api/recipes`, { params });
     dispatch({
-      type: GET_RECIPES,
+      type: GET_ALL_RECIPES,
       payload: response.data,
     });
   } catch (err) {
     dispatch({
-      type: 'GET_RECIPES_ERROR',
+      type: 'GET_ALL_RECIPES_ERROR',
+      error: err.response.data,
+    });
+  }
+};
+
+export const getMostLikedRecipes = params => async dispatch => {
+  try {
+    const response = await axios.get(`${config.API_URL}/api/recipes`, { params });
+    dispatch({
+      type: GET_MOST_LIKED_RECIPES,
+      payload: response.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: 'GET_MOST_LIKED_RECIPES_ERROR',
       error: err.response.data,
     });
   }
