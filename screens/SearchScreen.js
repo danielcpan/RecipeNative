@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/Styles';
 import StarRating from 'react-native-star-rating';
-import { ScrollView, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { 
   Container,  
   Text,
@@ -27,7 +27,7 @@ const SearchScreen = props => {
   // console.log(mostLikedRecipes)
   
   useEffect(() => {
-    // getAllRecipes(params);
+    getAllRecipes(params);
     getMostLikedRecipes(params);
   }, [])
 
@@ -58,7 +58,7 @@ const SearchScreen = props => {
         >
           {mostLikedRecipes.map((item, idx) => (
             // <TouchableOpacity key={item._id}>
-            <Card transparent>
+            <Card transparent key={item._id}>
               <CardItem cardBody>
                 <View style={styles.cardImageContainer}>
                   <Thumbnail 
@@ -70,7 +70,7 @@ const SearchScreen = props => {
               </CardItem>
               <CardItem>
                 <Body style={styles.card}>
-                  <Text numberOfLines={1} style={styles.cardTitle}>Miso-Grilled Auberingedasddsas</Text>
+                  <Text numberOfLines={1} style={styles.cardTitle}>{item.titleMain}</Text>
                   <View style={styles.starRating}>
                     <StarRating
                       disabled={true}
@@ -110,7 +110,7 @@ SearchScreen.navigationOptions = {
   headerRight: (
     <Icon 
       style={{ paddingRight: 15 }} 
-      name="ios-settings" 
+      name={Platform.OS === 'ios' ? 'ios-more' : 'md-more-horiz'} 
     />
   )
 };
@@ -176,7 +176,8 @@ const styles = StyleSheet.create({
   listHeader: {
     display: 'flex', 
     justifyContent: 'space-between', 
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'baseline'
   }
 });
 

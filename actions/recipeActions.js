@@ -19,9 +19,10 @@ export const getRecipe = recipeNameId => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
+    // console.log(err.response.data)
     dispatch({
       type: 'GET_RECIPE_ERROR',
-      error: err.response.data,
+      error: err,
     });
   }
 };
@@ -34,9 +35,10 @@ export const getAllRecipes = params => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
+    // console.log(err.response.data)
     dispatch({
       type: 'GET_ALL_RECIPES_ERROR',
-      error: err.response.data,
+      error: err,
     });
   }
 };
@@ -49,9 +51,10 @@ export const getMostLikedRecipes = params => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
+    // console.log(err.response.data)
     dispatch({
       type: 'GET_MOST_LIKED_RECIPES_ERROR',
-      error: err.response.data,
+      error: err,
     });
   }
 };

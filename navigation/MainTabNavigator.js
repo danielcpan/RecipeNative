@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import RecipesScreen from '../screens/RecipesScreen';
 import SearchScreen from '../screens/SearchScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
+import RecipeDetailScreen from '../screens/RecipeDetailScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -33,7 +34,8 @@ RecipesStack.path = '';
 
 const SearchStack = createStackNavigator(
   {
-    Search: SearchScreen,
+    // Search: SearchScreen,
+    Search: RecipeDetailScreen
   },
   config
 );
@@ -62,7 +64,7 @@ FavoritesStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon 
       focused={focused} 
-      name={Platform.OS === 'ios' ? 'ios-heart' : 'md-favorites'} 
+      name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} 
     />
   ),
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import theme from '../constants/Styles';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { 
   Input,
   Item,
@@ -14,7 +14,7 @@ const SearchInput = props => {
     <View>
       <Form>
         <Item regular style={styles.search}>
-          <Icon active name='search' />
+          <Icon active name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} />
           <Input placeholder='Search' />
         </Item>
       </Form>

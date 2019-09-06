@@ -9,7 +9,7 @@ export default {
   fontSizeXs: 14,
   fontSizeSm: 18,
   fontSizeMd: 24,
-  fontSizeLg: 32,
+  fontSizeLg: 30,
   fontSizeXl: 40,
   fontWeightLight: '200',
   fontWeightMedium: '500',

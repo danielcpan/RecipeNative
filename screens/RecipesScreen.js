@@ -23,7 +23,7 @@ const RecipesScreen = props => {
   const { recipes, getAllRecipes } = props;
 
   useEffect(() => {
-    getAllRecipes(params);
+    // getAllRecipes(params);
   }, [])
 
   const handleEnd = () => {
