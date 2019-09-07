@@ -28,7 +28,7 @@ const RecipesScreen = props => {
 
   const handleEnd = () => {
     setParams({ ...params, skip: params.skip += 15})
-    fetchRecipes('featured' ,params)
+    // fetchRecipes('featured' ,params)
   }
 
   return (

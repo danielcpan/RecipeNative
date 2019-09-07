@@ -17,7 +17,9 @@ import {
 } from 'native-base';
 
 const RecipeList = props => {
-  const { data, handleEnd, navigation } = props;
+  const { data, isLoading, handleEnd, navigation, autoLoadMore } = props;
+  // console.log("data")
+  // console.log(data)
   // console.log('test')
   // console.log(props.navigation)
 
@@ -25,9 +27,9 @@ const RecipeList = props => {
     <FlatList 
     data={[...data]}
     keyExtractor={x => x._id}
-    onEndReached={() => handleEnd()}
+    onEndReached={() => autoLoadMore ? handleEnd() : null }
     onEndReachedThreshold={0}
-    ListFooterComponent={() => <ActivityIndicator animating/>}
+    ListFooterComponent={() => (isLoading) ? <ActivityIndicator animating/> : null}
     renderItem={({ item }) => (
       <ListItem 
         onPress={() => navigation.push('RecipesDetails', item)}

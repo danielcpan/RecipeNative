@@ -27,7 +27,7 @@ const RecipeDetailScreen = props => {
     skip: 0,
     limit: 15,
   })  
-  const { currentRecipe } = props;
+  const { recipe } = props;
   // const { params } = props.navigation.state
   console.log("params")
   const { titleMain, titleSub, author, calories, cookTimeMins, ratingCount, ratingValue, servings, thumbnailUrl} = props.navigation.state.params
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  currentRecipe: state.recipes.currentRecipe,
+  recipe: state.recipeDetails.recipe,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -64,27 +64,29 @@ export const getMostLikedRecipes = params => async dispatch => {
   }
 };
 
-export const fetchRecipesRequest = () => ({
-  type: FETCH_RECIPES_REQUEST
+export const fetchRecipesRequest = category => ({
+  type: FETCH_RECIPES_REQUEST,
+  category
 })
 
-export const fetchRecipesSuccess = (recipes, category) => ({
+export const fetchRecipesSuccess = (category, recipes) => ({
   type: FETCH_RECIPES_SUCCESS,
   payload: recipes,
   category
 })
 
-export const fetchRecipesFailure = (err) => ({
+export const fetchRecipesFailure = (category, err) => ({
   type: FETCH_RECIPES_FAILURE,
-  payload: err
+  payload: err,
+  category
 })
 
 export const fetchRecipes = (category, params) => async dispatch => {
   try {
-    dispatch(fetchRecipesRequest());
+    dispatch(fetchRecipesRequest(category));
     const response = await axios.get(`${API_URL}/api/recipes/${category}`, { params });
-    dispatch(fetchRecipesSuccess(response.data, category));
+    dispatch(fetchRecipesSuccess(category, response.data));
   } catch (err) {
-    dispatch(fetchRecipesFailure(err));
+    dispatch(fetchRecipesFailure(category, err));
   }
 }

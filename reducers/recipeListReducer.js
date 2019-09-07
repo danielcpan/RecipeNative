@@ -17,11 +17,39 @@ const createReducer = category => {
   return (state = initialState, action) => {
     switch (action.type) {
       case FETCH_RECIPES_REQUEST:
-        return { ...state, isLoading: true, hasErrored: false, error: null };
+        if (category === action.category) {
+          console.log("FETCH_RECIPES_REQUEST")
+          return { 
+            ...state, 
+            isLoading: true, 
+            hasErrored: false, 
+            error: null 
+          };
+        }
+        return state;
       case FETCH_RECIPES_SUCCESS:
-        return { ...state, recipes: [...state.recipes, ...action.payload] };
+        if (category === action.category) {
+          console.log("FETCH_RECIPES_SUCCESS")
+          return { 
+            ...state, 
+            isLoading: false,
+            hasErrored: false,
+            error: null,
+            recipes: [...state.recipes, ...action.payload] 
+          };
+        }
+        return state;
       case FETCH_RECIPES_FAILURE:
-        return { ...state, isLoading: false, hasErrored: true, error: action.payload };
+        if (category === action.category) {
+          console.log("FETCH_RECIPES_FAILURE");
+          return { 
+            ...state, 
+            isLoading: false, 
+            hasErrored: true, 
+            error: action.payload 
+          };
+        }
+        return state;
       default:
         return state;
     }

@@ -19,17 +19,28 @@ import { fetchRecipes } from '../actions/recipeActions';
 
 
 const SearchScreen = props => {
-  const [params, setParams] = useState({
+  const [mostLikedParams, setMostLikedParams] = useState({
     skip: 0,
     limit: 15,
-  })  
-  const { mostLikedRecipes, popularRecipes, fetchRecipes } = props;
+  })
+  const [popularParams, setPopularParams] = useState({
+    skip: 0,
+    limit: 5,
+  })
+  const [newParams, setNewParams] = useState({
+    skip: 0,
+    limit: 5,
+  })
+  const { mostLikedRecipes, popularRecipes, newRecipes, fetchRecipes } = props;
+  // console.log(props.mostLiked)
   // console.log(mostLikedRecipes)
+  // console.log(featuredRecipes)
   
   useEffect(() => {
     // getAllRecipes(params);
-    fetchRecipes('popular', params);
-    fetchRecipes('most-liked', params);
+    fetchRecipes('most-liked', mostLikedParams);
+    fetchRecipes('popular', popularParams);
+    fetchRecipes('new', newParams);
   }, [])
 
   const handleEnd = () => {
@@ -60,7 +71,7 @@ const SearchScreen = props => {
           horizontal= {true}
           style={styles.cardList}
         >
-          {mostLikedRecipes.map((item, idx) => (
+          {mostLikedRecipes.recipes.map((item, idx) => (
             // <TouchableOpacity key={item._id}>
             <Card transparent key={item._id}>
               <CardItem cardBody>
@@ -99,10 +110,28 @@ const SearchScreen = props => {
           </View>
         </View>
         <RecipeList 
-          data={popularRecipes}
+          data={popularRecipes.recipes}
+          isLoading={popularRecipes.isLoading}
           handleEnd={handleEnd}
           navigation={props.navigation}
-          />
+          autoLoadMore={false}
+        />
+      </View>
+
+      <View>
+        <View style={styles.container}>
+          <View style={styles.listHeader}>
+            <Text style={styles.subHeaderTitle}>New</Text>
+            <Text style={{ fontSize: theme.fontSizeXs, fontWeight: theme.fontWeightLight}}>SEE MORE</Text>
+          </View>
+        </View>
+        <RecipeList 
+          data={newRecipes.recipes}
+          isLoading={popularRecipes.isLoading}
+          handleEnd={handleEnd}
+          navigation={props.navigation}
+          autoLoadMore={false}
+        />
       </View>
     </ScrollView>
   );
@@ -187,8 +216,19 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  mostLikedRecipes: state.mostLikedRecipes.recipes,
-  popularRecipes: state.popularRecipes.recipes,
+  mostLikedRecipes: {
+    ...state.mostLikedRecipes
+  },
+  popularRecipes: {
+    ...state.popularRecipes
+  },
+  newRecipes: {
+    ...state.newRecipes
+  },
+  // mostLikedRecipes: state.mostLikedRecipes.recipes,
+  // mostLikedRecipesIsLoading: 
+  // popularRecipes: state.popularRecipes.recipes,
+  // newRecipes: state.newRecipes.recipes,
 });
 
 const mapDispatchToProps = dispatch => ({
