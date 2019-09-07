@@ -17,7 +17,9 @@ import {
 } from 'native-base';
 
 const RecipeList = props => {
-  const { data, handleEnd } = props;
+  const { data, handleEnd, navigation } = props;
+  // console.log('test')
+  // console.log(props.navigation)
 
   return (
     <FlatList 
@@ -27,7 +29,12 @@ const RecipeList = props => {
     onEndReachedThreshold={0}
     ListFooterComponent={() => <ActivityIndicator animating/>}
     renderItem={({ item }) => (
-      <ListItem thumbnail noBorder style={{height: 75}}>
+      <ListItem 
+        onPress={() => navigation.push('RecipesDetails', item)}
+        thumbnail 
+        noBorder 
+        style={{height: 75}}
+      >
         <Left>
           <Thumbnail square source={{ uri: item.thumbnailUrl }} style={{ borderRadius: 10, height: 60, width: 60 }}/>
         </Left>
@@ -36,7 +43,7 @@ const RecipeList = props => {
           <Text note numberOfLines={1}>{item.titleSub}</Text>
           <View style={{ flexDirection: 'row'}}>
             <StarRating
-              disabled={false}
+              disabled={true}
               maxStars={5}
               rating={item.ratingValue}
               starSize={10}

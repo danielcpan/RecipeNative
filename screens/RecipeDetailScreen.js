@@ -19,7 +19,7 @@ import {
 } from 'native-base';
 import SearchInput from '../components/SearchInput';
 import RecipeList from '../components/RecipeList';
-import { getAllRecipes, getMostLikedRecipes } from '../actions/recipeActions';
+import { getRecipe } from '../actions/recipeActions';
 
 
 const RecipeDetailScreen = props => {
@@ -27,12 +27,19 @@ const RecipeDetailScreen = props => {
     skip: 0,
     limit: 15,
   })  
-  const { recipes, mostLikedRecipes, getAllRecipes, getMostLikedRecipes } = props;
+  const { currentRecipe } = props;
+  // const { params } = props.navigation.state
+  console.log("params")
+  const { titleMain, titleSub, author, calories, cookTimeMins, ratingCount, ratingValue, servings, thumbnailUrl} = props.navigation.state.params
+  // console.log(props.navigation.state.params)
+
+  // console.log("props")
+  // console.log(props)
   // console.log(mostLikedRecipes)
   
   useEffect(() => {
-    getAllRecipes(params);
-    getMostLikedRecipes(params);
+    // getAllRecipes(params);
+    // getMostLikedRecipes(params);
   }, [])
 
   const handleEnd = () => {
@@ -44,8 +51,8 @@ const RecipeDetailScreen = props => {
     <ScrollView>
       <View style={styles.container}>
         <View>
-          <Text style={styles.headerTitle}>Spicy Scrambled Egg Tacos</Text>
-          <Text note style={styles.subHeaderTitle}>with Spicy Scrambled Egg Tacos</Text>        
+          <Text style={styles.headerTitle}>{titleMain}</Text>
+          <Text note style={styles.subHeaderTitle}>{titleSub}</Text>        
         </View>
         <View>
           <Text style={{ paddingTop: 7.5}}>Test</Text>
@@ -56,14 +63,14 @@ const RecipeDetailScreen = props => {
         <View style={styles.starRating}>
           <StarRating
             maxStars={5}
-            rating={4.5}
+            rating={ratingValue}
             starSize={16}
             fullStarColor={theme.fullStarColor}
             editing={true}
           />
         </View>
         <View>
-          <Text note style={{paddingLeft: 7.5, fontSize: theme.fontSizeXs}}>(288 Ratings)</Text>
+          <Text note style={{paddingLeft: 7.5, fontSize: theme.fontSizeXs}}>({ratingCount} Ratings)</Text>
         </View>
         <View style={{flex: 1, alignSelf: 'flex-end'}}>
           <Icon name={'ios-heart'} style={{ fontSize: theme.fontSizeSm}}/>
@@ -72,7 +79,7 @@ const RecipeDetailScreen = props => {
 
       <View>
         <Image 
-          source={{ uri: 'https://media.blueapron.com/recipes/22422/square_newsletter_images/1565123739-33-0010-1624/0909_2PP_Gochujang-Glazed-Chicken_020_Square_Web_hi_res.jpg'}} 
+          source={{ uri: thumbnailUrl}} 
           style={{ height: 275, width: '100%' }}
         />
       </View>
@@ -80,17 +87,17 @@ const RecipeDetailScreen = props => {
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...theme.padding(7.5, 30)}}>
         <View style={{alignItems: 'center'}}>
           <Text note>Time</Text>
-          <Text style={{ fontWeight: theme.fontWeightHeavy}}>30 min</Text>
+          <Text style={{ fontWeight: theme.fontWeightHeavy}}>{cookTimeMins} mins</Text>
         </View>
 
         <View style={{alignItems: 'center'}}>
           <Text note>Servings</Text>
-          <Text style={{ fontWeight: theme.fontWeightHeavy}}>2</Text>
+          <Text style={{ fontWeight: theme.fontWeightHeavy}}>{servings}</Text>
         </View>
 
         <View style={{alignItems: 'center'}}>
           <Text note>Nutrition</Text>
-          <Text style={{ fontWeight: theme.fontWeightHeavy}}>600 Cal</Text>
+          <Text style={{ fontWeight: theme.fontWeightHeavy}}>{calories} Cal</Text>
         </View>        
       </View>
 
@@ -161,7 +168,105 @@ const RecipeDetailScreen = props => {
             </ListItem>                                    
           </Tab>
           <Tab heading='Instructions' activeTextStyle={{ color: theme.primaryColor}}>
+            <ListItem>
+              <Body>
+                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
+                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
+                    <Text>1</Text>
+                  </View>
 
+                  <View>
+                    <Text>Prepare the ingredients:</Text>
+                  </View>
+                </View>
+
+                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
+                  <Image 
+                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
+                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
+                  />                
+                </View>
+
+                <View style={{...theme.padding(7.5, 0)}}>
+                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
+                </View>
+              </Body>
+            </ListItem>
+
+            <ListItem>
+              <Body>
+                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
+                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
+                    <Text>1</Text>
+                  </View>
+
+                  <View>
+                    <Text>Prepare the ingredients:</Text>
+                  </View>
+                </View>
+
+                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
+                  <Image 
+                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
+                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
+                  />                
+                </View>
+
+                <View style={{...theme.padding(7.5, 0)}}>
+                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
+                </View>
+              </Body>
+            </ListItem>
+
+            <ListItem>
+              <Body>
+                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
+                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
+                    <Text>1</Text>
+                  </View>
+
+                  <View>
+                    <Text>Prepare the ingredients:</Text>
+                  </View>
+                </View>
+
+                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
+                  <Image 
+                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
+                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
+                  />                
+                </View>
+
+                <View style={{...theme.padding(7.5, 0)}}>
+                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
+                </View>
+              </Body>
+            </ListItem>
+
+            <ListItem>
+              <Body>
+                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
+                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
+                    <Text>1</Text>
+                  </View>
+
+                  <View>
+                    <Text>Prepare the ingredients:</Text>
+                  </View>
+                </View>
+
+                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
+                  <Image 
+                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
+                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
+                  />                
+                </View>
+
+                <View style={{...theme.padding(7.5, 0)}}>
+                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
+                </View>
+              </Body>
+            </ListItem>                                    
           </Tab>
 
         </Tabs>
@@ -220,13 +325,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  recipes: state.recipes.cookBook,
-  mostLikedRecipes: state.recipes.mostLikedRecipes,
+  currentRecipe: state.recipes.currentRecipe,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAllRecipes: params => dispatch(getAllRecipes(params)),
-  getMostLikedRecipes: params => dispatch(getMostLikedRecipes(params))
+  getRecipe: _id => dispatch(getRecipe(_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetailScreen);

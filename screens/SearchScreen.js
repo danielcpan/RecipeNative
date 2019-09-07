@@ -15,7 +15,7 @@ import {
 } from 'native-base';
 import SearchInput from '../components/SearchInput';
 import RecipeList from '../components/RecipeList';
-import { getAllRecipes, getMostLikedRecipes } from '../actions/recipeActions';
+import { fetchRecipes } from '../actions/recipeActions';
 
 
 const SearchScreen = props => {
@@ -23,18 +23,22 @@ const SearchScreen = props => {
     skip: 0,
     limit: 15,
   })  
-  const { recipes, mostLikedRecipes, getAllRecipes, getMostLikedRecipes } = props;
+  const { mostLikedRecipes, popularRecipes, fetchRecipes } = props;
   // console.log(mostLikedRecipes)
   
   useEffect(() => {
-    getAllRecipes(params);
-    getMostLikedRecipes(params);
+    // getAllRecipes(params);
+    fetchRecipes('popular', params);
+    fetchRecipes('most-liked', params);
   }, [])
 
   const handleEnd = () => {
     // setParams({ ...params, skip: params.skip += 15})
     // getAllRecipes(params)
   }  
+
+  // console.log('test')
+  // console.log(props.navigation)
 
   return (
     <ScrollView>
@@ -95,8 +99,9 @@ const SearchScreen = props => {
           </View>
         </View>
         <RecipeList 
-          data={recipes}
+          data={popularRecipes}
           handleEnd={handleEnd}
+          navigation={props.navigation}
           />
       </View>
     </ScrollView>
@@ -182,13 +187,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  recipes: state.recipes.cookBook,
-  mostLikedRecipes: state.recipes.mostLikedRecipes,
+  mostLikedRecipes: state.mostLikedRecipes.recipes,
+  popularRecipes: state.popularRecipes.recipes,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAllRecipes: params => dispatch(getAllRecipes(params)),
-  getMostLikedRecipes: params => dispatch(getMostLikedRecipes(params))
+  fetchRecipes: (category, params) => dispatch(fetchRecipes(category, params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen);

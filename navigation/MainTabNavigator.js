@@ -13,6 +13,13 @@ const config = Platform.select({
   default: {},
 });
 
+const RecipesDetailsStack = createStackNavigator(
+  {
+    RecipesDetails: RecipeDetailScreen,
+  },
+  config
+);
+
 const RecipesStack = createStackNavigator(
   {
     Recipes: RecipesScreen,
@@ -34,8 +41,9 @@ RecipesStack.path = '';
 
 const SearchStack = createStackNavigator(
   {
-    // Search: SearchScreen,
-    Search: RecipeDetailScreen
+    Search: SearchScreen,
+    // Search: RecipeDetailScreen
+    RecipesDetails: RecipeDetailScreen,
   },
   config
 );
@@ -76,6 +84,7 @@ const tabNavigator = createBottomTabNavigator({
   RecipesStack,
   // SearchStack,
   FavoritesStack,
+  // RecipesDetailsStack
 });
 
 tabNavigator.path = '';

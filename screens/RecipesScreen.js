@@ -13,14 +13,14 @@ import {
   Text 
 } from 'native-base';
 import RecipeList from '../components/RecipeList';
-import { getAllRecipes } from '../actions/recipeActions';
+import { fetchRecipes } from '../actions/recipeActions';
 
 const RecipesScreen = props => {
   const [params, setParams] = useState({
     skip: 0,
     limit: 15,
   })
-  const { recipes, getAllRecipes } = props;
+  const { featuredRecipes, fetchRecipes } = props;
 
   useEffect(() => {
     // getAllRecipes(params);
@@ -28,7 +28,7 @@ const RecipesScreen = props => {
 
   const handleEnd = () => {
     setParams({ ...params, skip: params.skip += 15})
-    getAllRecipes(params)
+    fetchRecipes('featured' ,params)
   }
 
   return (
@@ -43,7 +43,7 @@ const RecipesScreen = props => {
       <Tabs initialPage={0}>
         <Tab heading="Featured">
           <RecipeList 
-            data={recipes}
+            data={featuredRecipes}
             handleEnd={handleEnd}
           />
         </Tab>
@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  recipes: state.recipes.cookBook,
+  featuredRecipes: state.featuredRecipes.recipes,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAllRecipes: params => dispatch(getAllRecipes(params))
+  fetchRecipes: (category, params) => dispatch(fetchRecipes(category, params))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipesScreen);
