@@ -54,7 +54,7 @@ const SearchScreen = props => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.headerTitle}>Search</Text>
+        <Text style={styles.headerTitle}>Discover</Text>
       </View>
 
       <View style={styles.container}>

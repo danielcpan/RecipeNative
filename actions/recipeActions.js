@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import {
+  RESET_RECIPE_DETAILS,
   FETCH_RECIPE_DETAILS_REQUEST,
   FETCH_RECIPE_DETAILS_SUCCESS,
   FETCH_RECIPE_DETAILS_FAILURE,
@@ -13,6 +14,10 @@ const env = process.env.NODE_ENV || 'development';
 const { API_URL } = require('../config/config')[env];
 
 // FETCH RECIPE DETAILS ACTIONS
+export const resetRecipeDetails = () => ({
+  type: RESET_RECIPE_DETAILS,
+})
+
 export const fetchRecipeDetailsRequest = () => ({
   type: FETCH_RECIPE_DETAILS_REQUEST,
 })

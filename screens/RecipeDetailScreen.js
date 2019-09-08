@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
-import { ScrollView, View, Image, StyleSheet, Platform } from 'react-native';
+import { ScrollView, View, Image, StyleSheet, Platform, Button, ActivityIndicator } from 'react-native';
 import { 
   Text,
   Icon,
@@ -10,19 +10,28 @@ import {
   Tabs,
   Tab,
   ListItem,
+  Content,
 } from 'native-base';
 
-import { fetchRecipeDetails } from '../actions/recipeActions';
+import IngredientsTab from '../components/IngredientsTab';
+import InstructionsTab from '../components/InstructionsTab';
+import RecipeDetailsInfoSection from '../components/RecipeDetailsInfoSection';
+import { resetRecipeDetails ,fetchRecipeDetails } from '../actions/recipeActions';
 
 const RecipeDetailScreen = props => {
   const { _id, titleMain, titleSub, author, calories, cookTimeMins, ratingCount, ratingValue, servings, thumbnailUrl} = props.navigation.state.params;
   const { 
-    recipe: { 
-      description, 
-      ingredientsImageUrl, 
-      ingredients = [], 
-      instructions = []
-    }, 
+    recipeDetails: {
+      recipe: {
+        description = '', 
+        ingredientsImageUrl = '', 
+        ingredients = [], 
+        instructions = [],
+      },
+      isLoading,
+      hasErroed,
+      error,
+    },
     fetchRecipeDetails 
   } = props;
   
@@ -66,79 +75,42 @@ const RecipeDetailScreen = props => {
           style={{ height: 275, width: '100%' }}
         />
       </View>
-
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...theme.padding(7.5, 30)}}>
-        <View style={{alignItems: 'center'}}>
-          <Text note>Time</Text>
-          <Text style={{ fontWeight: theme.fontWeightHeavy}}>{cookTimeMins} mins</Text>
-        </View>
-
-        <View style={{alignItems: 'center'}}>
-          <Text note>Servings</Text>
-          <Text style={{ fontWeight: theme.fontWeightHeavy}}>{servings}</Text>
-        </View>
-
-        <View style={{alignItems: 'center'}}>
-          <Text note>Nutrition</Text>
-          <Text style={{ fontWeight: theme.fontWeightHeavy}}>{calories} Cal</Text>
-        </View>        
+      
+      <View style={{ ...theme.padding(7.5, 30) }}>
+        <RecipeDetailsInfoSection 
+          cookTimeMins={cookTimeMins}
+          servings={servings}
+          calories={calories}
+        />
       </View>
 
       <View style={{ ...theme.padding(7.5, 15)}}>
         <View style={{...theme.padding(7.5, 0)}}>
-          <Text note>Description</Text>  
+          <Text note>Description</Text>
         </View>
         <View>
-          <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
-            {description}
-          </Text>
+          {(isLoading) ? <ActivityIndicator animating /> : (
+            <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
+              {description}
+            </Text>            
+          )}
         </View>
       </View>
 
       <View style={{paddingTop: 10}}>
         <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: theme.primaryColor}}>
           <Tab heading='Ingredients' activeTextStyle={{ color: theme.primaryColor}}>
-          <View>
-            <Image 
-              source={{ uri: ingredientsImageUrl }} 
-              style={{ height: 250, width: '100%', resizeMode: 'center'}}
+            <IngredientsTab 
+              ingredientsImageUrl={ingredientsImageUrl}
+              ingredients={ingredients}
+              isLoading={isLoading}
             />
-          </View>
-            {(ingredients.map(ingredient => (
-            <ListItem key={ingredient}>
-              <Body>
-                <Text>{ingredient}</Text>
-              </Body>
-            </ListItem>
-          )))}
           </Tab>
           <Tab heading='Instructions' activeTextStyle={{ color: theme.primaryColor}}>
-            {(instructions.map((instruction, idx) => (
-              <ListItem key={instruction._id}>
-                <Body>
-                  <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
-                    <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
-                      <Text>{idx + 1}</Text>
-                    </View>
-
-                    <View>
-                      <Text>{instruction.stepTitle}</Text>
-                    </View>
-                  </View>
-
-                  <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
-                    <Image 
-                      source={{ uri: instruction.stepImage }} 
-                      style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
-                    />                
-                  </View>
-
-                  <View style={{...theme.padding(7.5, 0)}}>
-                      <Text>{instruction.stepText}</Text>
-                  </View>
-                </Body>
-              </ListItem>
-            )))}                        
+            <InstructionsTab 
+              instructions={instructions}
+              isLoading={isLoading}
+            />
           </Tab>
         </Tabs>
       </View>
@@ -146,17 +118,58 @@ const RecipeDetailScreen = props => {
   );
 }
 
-RecipeDetailScreen.navigationOptions = {
+// let BackButton = props => {
+//   console.log(props)
+//   return (
+//     <Icon 
+//       name='ios-arrow-back'
+//     />
+//     // <Button 
+//     //   icon={
+//     //     <Icon
+//     //       name='ios-arrow-back'
+//     //       size={10}
+//     //     />
+//     //   }
+//     //   onPress={() => {
+//     //     props.resetRecipeDetails();
+//     //     props.navigation.goBack();
+//     //   }}
+//     //   title='Back'
+//     //   color={theme.primaryColor}      
+//     // />
+//   )
+// }
+
+// const mapDispatchToProps2 = dispatch => ({
+//   resetRecipeDetails: () => dispatch(resetRecipeDetails()),
+// })
+
+// BackButton = connect(null, mapDispatchToProps2)(BackButton);
+
+RecipeDetailScreen.navigationOptions = props => ({
   headerStyle: {
     borderBottomWidth: 0,
   },
+  // headerLeft: (
+  //   // <BackButton navigation={props.navigation}/>
+  //   <Button
+  //     onPress={() => {
+  //       console.log(props)
+  //       // props.resetRecipeDetails();
+  //       props.navigation.goBack();
+  //     }}
+  //     title='Test'
+  //     color={theme.primaryColor}
+  //   />
+  // ),  
   headerRight: (
     <Icon 
       style={{ paddingRight: 15 }} 
       name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} 
     />
   )
-};
+});
 
 const styles = StyleSheet.create({
   header: {
@@ -195,10 +208,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  recipe: state.recipeDetails.recipe,
+  recipeDetails: {
+    ...state.recipeDetails
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
+  // resetRecipeDetails: () => dispatch(resetRecipeDetails()),
   fetchRecipeDetails: _id => dispatch(fetchRecipeDetails(_id)),
 });
 

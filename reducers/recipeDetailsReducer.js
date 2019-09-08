@@ -1,4 +1,5 @@
 import {
+  RESET_RECIPE_DETAILS,
   FETCH_RECIPE_DETAILS_REQUEST,
   FETCH_RECIPE_DETAILS_SUCCESS,
   FETCH_RECIPE_DETAILS_FAILURE,
@@ -35,6 +36,14 @@ export default (state = initialState, action) => {
         hasErrored: true, 
         error: action.payload 
       };
+    case RESET_RECIPE_DETAILS:
+      return {
+        ...state,
+        isLoading: false, 
+        hasErrored: false, 
+        error: null,
+        recipe: {}
+      }
     default:
       return state;
   }
