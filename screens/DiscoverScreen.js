@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
-import { ScrollView, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { ScrollView, View, StyleSheet, Platform } from 'react-native';
 import { 
   Container,  
   Text,
@@ -11,12 +11,20 @@ import {
   CardItem,
   Body,
   Thumbnail,
-  Right
+  Button,
+  ListItem
 } from 'native-base';
 import SearchInput from '../components/SearchInput';
 import RecipeList from '../components/RecipeList';
 import { fetchRecipes } from '../actions/recipeActions';
 
+const popularCollections = [
+  'Beef', 'Fish', 'Lamb', 'Pork', 'Poultry', 'Shellfish', 'Vegetarian', 'African', 'American', 
+  'Asian', 'British', 'Cajun Creole', 'Caribbean', 'Chinese', 'Eastern European', 'Egyptian', 
+  'French', 'German', 'Greek', 'Indian', 'Italian', 'Japanese', 'Korean', 'Latin American', 
+  'Mediterranean', 'Mexican', 'Middle Eastern', 'Moroccan', 'Nepalese', 'Southern', 'Spanish', 
+  'Swedish', 'Thai', 'Vietnamese'
+]
 
 const DiscoverScreen = props => {
   const [mostLikedParams, setMostLikedParams] = useState({
@@ -72,7 +80,6 @@ const DiscoverScreen = props => {
           style={styles.cardList}
         >
           {mostLikedRecipes.recipes.map((item, idx) => (
-            // <TouchableOpacity key={item._id}>
             <Card transparent key={item._id}>
               <CardItem cardBody>
                 <View style={styles.cardImageContainer}>
@@ -98,15 +105,52 @@ const DiscoverScreen = props => {
                 </Body>
               </CardItem>
             </Card>
-            // </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
+
+      <View>
+        <View style={styles.container}>
+          <Text style={styles.subHeaderTitle}>Popular Collections</Text>
+        </View>
+        <ScrollView 
+          showsHorizontalScrollIndicator={false}
+          horizontal= {true}      
+        >
+          <View style={styles.popularCollectionsContainer}>
+            {(popularCollections).map(collection => (
+              <Button 
+                key={collection}
+                style={styles.popularCollectionButton}
+              >
+                <Text style={styles.popularCollectionButtonText}>{collection}</Text>
+              </Button>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+
+      <View>
+        <View style={styles.container}>
+          <View style={styles.listHeader}>
+            <Text style={styles.subHeaderTitle}>Featured</Text>
+            <Text style={styles.seeMoreText}>SEE MORE</Text>
+          </View>
+        </View>
+        <RecipeList 
+          data={popularRecipes.recipes}
+          isLoading={popularRecipes.isLoading}
+          handleEnd={handleEnd}
+          navigation={props.navigation}
+          autoLoadMore={false}
+        />
+      </View>      
+
       <View>
         <View style={styles.container}>
           <View style={styles.listHeader}>
             <Text style={styles.subHeaderTitle}>Popular</Text>
-            <Text style={{ fontSize: theme.fontSizeXs, fontWeight: theme.fontWeightLight}}>SEE MORE</Text>
+            <Text style={styles.seeMoreText}>SEE MORE</Text>
           </View>
         </View>
         <RecipeList 
@@ -122,7 +166,7 @@ const DiscoverScreen = props => {
         <View style={styles.container}>
           <View style={styles.listHeader}>
             <Text style={styles.subHeaderTitle}>New</Text>
-            <Text style={{ fontSize: theme.fontSizeXs, fontWeight: theme.fontWeightLight}}>SEE MORE</Text>
+            <Text style={styles.seeMoreText}>SEE MORE</Text>
           </View>
         </View>
         <RecipeList 
@@ -212,6 +256,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', 
     flexDirection: 'row',
     alignItems: 'baseline'
+  },
+  popularCollectionsContainer: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    width: 1225, 
+    ...theme.margin(7.5, 7.5)
+  },
+  popularCollectionButton: {
+    backgroundColor: theme.primaryColor, 
+    borderRadius: 20, 
+    height: 35,
+    ...theme.margin(3)    
+  },
+  popularCollectionButtonText: {
+    fontSize: theme.fontSizeXs, 
+    fontWeight: theme.fontWeightHeavy    
+  },
+  seeMoreText: {
+    fontSize: theme.fontSizeXs, 
+    fontWeight: theme.fontWeightMedium    
   }
 });
 
@@ -225,10 +290,6 @@ const mapStateToProps = state => ({
   newRecipes: {
     ...state.newRecipes
   },
-  // mostLikedRecipes: state.mostLikedRecipes.recipes,
-  // mostLikedRecipesIsLoading: 
-  // popularRecipes: state.popularRecipes.recipes,
-  // newRecipes: state.newRecipes.recipes,
 });
 
 const mapDispatchToProps = dispatch => ({
