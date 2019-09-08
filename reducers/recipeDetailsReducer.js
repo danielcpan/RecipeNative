@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   hasErrored: false,
   error: null,
-  recipe: [],
+  recipe: {},
 };
 
 export default (state = initialState, action) => {

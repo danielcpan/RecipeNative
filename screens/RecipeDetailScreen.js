@@ -1,51 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
 import { ScrollView, View, Image, StyleSheet, Platform } from 'react-native';
 import { 
-  Container,  
   Text,
   Icon,
-  Card,
-  CardItem,
   Body,
-  Thumbnail,
-  Right,
   Tabs,
   Tab,
   ListItem,
-  Left
 } from 'native-base';
-import SearchInput from '../components/SearchInput';
-import RecipeList from '../components/RecipeList';
+
 import { fetchRecipeDetails } from '../actions/recipeActions';
 
-
 const RecipeDetailScreen = props => {
-  const [params, setParams] = useState({
-    skip: 0,
-    limit: 15,
-  })  
-  const { recipe } = props;
-  // const { params } = props.navigation.state
-  // console.log("params")
-  const { titleMain, titleSub, author, calories, cookTimeMins, ratingCount, ratingValue, servings, thumbnailUrl} = props.navigation.state.params
-  // console.log(props.navigation.state.params)
-
-  // console.log("props")
-  // console.log(props)
-  // console.log(mostLikedRecipes)
+  const { _id, titleMain, titleSub, author, calories, cookTimeMins, ratingCount, ratingValue, servings, thumbnailUrl} = props.navigation.state.params;
+  const { 
+    recipe: { 
+      description, 
+      ingredientsImageUrl, 
+      ingredients = [], 
+      instructions = []
+    }, 
+    fetchRecipeDetails 
+  } = props;
   
   useEffect(() => {
-    // getAllRecipes(params);
-    // getMostLikedRecipes(params);
+    fetchRecipeDetails(_id)
   }, [])
-
-  const handleEnd = () => {
-    // setParams({ ...params, skip: params.skip += 15})
-    // getAllRecipes(params)
-  }  
 
   return (
     <ScrollView>
@@ -107,7 +90,7 @@ const RecipeDetailScreen = props => {
         </View>
         <View>
           <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
-            This comforting dish pairs warm homemade biscuits with rich seared steaks—coated in a blend of bold Cajun-style spices, then topped with a dollop of sweet, creamy maple butter. When forming the biscuit dough, you’ll want to gently stir the ingredients together until they are just combined, which will help develop their characteristically light and flaky texture.
+            {description}
           </Text>
         </View>
       </View>
@@ -117,161 +100,48 @@ const RecipeDetailScreen = props => {
           <Tab heading='Ingredients' activeTextStyle={{ color: theme.primaryColor}}>
           <View>
             <Image 
-              source={{ uri: 'https://media.blueapron.com/recipes/22422/ingredient_images/1565193512-33-0116-0666/0909_ING_LAUREN_2PP_W01_large_feature.png'}} 
+              source={{ uri: ingredientsImageUrl }} 
               style={{ height: 250, width: '100%', resizeMode: 'center'}}
             />
           </View>
-            <ListItem>
+            {(ingredients.map(ingredient => (
+            <ListItem key={ingredient}>
               <Body>
-                <Text>2 Steaks</Text>
+                <Text>{ingredient}</Text>
               </Body>
             </ListItem>
-          <ListItem>
-              <Body>
-                <Text>2 Scallions</Text>
-              </Body>
-            </ListItem>          
-          <ListItem>
-              <Body>
-                <Text>½ lb Broccoli</Text>
-              </Body>
-            </ListItem>
-            <ListItem>
-              <Body>
-                <Text>½ cup Biscuit Mix</Text>
-              </Body>
-            </ListItem>
-            <ListItem>
-              <Body>
-                <Text>2 Tbsps Butter</Text>
-              </Body>
-            </ListItem>                                  
-            <ListItem>
-              <Body>
-                <Text>2 Tbsps Fromage Blanc</Text>
-              </Body>
-            </ListItem>
-            <ListItem>
-              <Body>
-                <Text>2 Tbsps Maple Syrup</Text>
-              </Body>
-            </ListItem>
-            <ListItem>
-              <Body>
-                <Text>2 Tbsps Sliced Roasted Almonds</Text>
-              </Body>
-            </ListItem>
-            <ListItem>
-              <Body>
-                <Text>1 Tbsp Cajun Spice Blend (Smoked Paprika, Ground Yellow Mustard, Onion Powder, Garlic Powder, Whole Dried Oregano, Whole Dried Thyme & Cayenne Pepper)</Text>
-              </Body>
-            </ListItem>                                    
+          )))}
           </Tab>
           <Tab heading='Instructions' activeTextStyle={{ color: theme.primaryColor}}>
-            <ListItem>
-              <Body>
-                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
-                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
-                    <Text>1</Text>
+            {(instructions.map((instruction, idx) => (
+              <ListItem key={instruction._id}>
+                <Body>
+                  <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
+                    <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
+                      <Text>{idx + 1}</Text>
+                    </View>
+
+                    <View>
+                      <Text>{instruction.stepTitle}</Text>
+                    </View>
                   </View>
 
-                  <View>
-                    <Text>Prepare the ingredients:</Text>
-                  </View>
-                </View>
-
-                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
-                  <Image 
-                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
-                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
-                  />                
-                </View>
-
-                <View style={{...theme.padding(7.5, 0)}}>
-                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
-                </View>
-              </Body>
-            </ListItem>
-
-            <ListItem>
-              <Body>
-                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
-                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
-                    <Text>1</Text>
+                  <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
+                    <Image 
+                      source={{ uri: instruction.stepImage }} 
+                      style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
+                    />                
                   </View>
 
-                  <View>
-                    <Text>Prepare the ingredients:</Text>
+                  <View style={{...theme.padding(7.5, 0)}}>
+                      <Text>{instruction.stepText}</Text>
                   </View>
-                </View>
-
-                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
-                  <Image 
-                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
-                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
-                  />                
-                </View>
-
-                <View style={{...theme.padding(7.5, 0)}}>
-                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
-                </View>
-              </Body>
-            </ListItem>
-
-            <ListItem>
-              <Body>
-                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
-                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
-                    <Text>1</Text>
-                  </View>
-
-                  <View>
-                    <Text>Prepare the ingredients:</Text>
-                  </View>
-                </View>
-
-                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
-                  <Image 
-                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
-                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
-                  />                
-                </View>
-
-                <View style={{...theme.padding(7.5, 0)}}>
-                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
-                </View>
-              </Body>
-            </ListItem>
-
-            <ListItem>
-              <Body>
-                <View style={{ flexDirection: 'row', ...theme.padding(7.5, 0)}}>
-                  <View style={{ backgroundColor: theme.primaryBackgroundColor, height: 25, width: 25, borderRadius: 20}}>
-                    <Text>1</Text>
-                  </View>
-
-                  <View>
-                    <Text>Prepare the ingredients:</Text>
-                  </View>
-                </View>
-
-                <View style={{ ...theme.margin(7.5, -15), padding: 0}}>
-                  <Image 
-                    source={{ uri: 'https://media.blueapron.com/recipes/22425/recipe_steps/36111/1565192644-33-0089-4117/0902_2PM_Beef_0621_Web_high_feature.jpg'}} 
-                    style={{ height: 250, width: '100%', resizeMode: 'cover', zIndex: 10000}}
-                  />                
-                </View>
-
-                <View style={{...theme.padding(7.5, 0)}}>
-                    <Text>Remove the butter from the refrigerator to soften. Place an oven rack in the center of the oven, then preheat to 450&deg;F. Wash and dry the fresh produce. Cut off and discard the bottom &frac12; inch of the broccoli stem; cut the broccoli into small florets. Thinly slice 1 scallion (you will have extra).&nbsp;</Text>
-                </View>
-              </Body>
-            </ListItem>                                    
+                </Body>
+              </ListItem>
+            )))}                        
           </Tab>
-
         </Tabs>
       </View>
-
     </ScrollView>
   );
 }

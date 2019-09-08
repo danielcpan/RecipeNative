@@ -30,7 +30,7 @@ export const fetchRecipeDetailsFailure = err => ({
 export const fetchRecipeDetails = _id => async dispatch => {
   try {
     dispatch(fetchRecipeDetailsRequest());
-    const response = await axios.get(`${API_URL}/api/recipes/${_id}?`);
+    const response = await axios.get(`${API_URL}/api/recipes/${_id}`);
     dispatch(fetchRecipeDetailsSuccess(response.data));
   } catch (err) {
     dispatch(fetchRecipeDetailsFailure(err));
