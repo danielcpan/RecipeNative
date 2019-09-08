@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from '../constants/Styles';
+import theme from '../constants/theme';
 import { View, StyleSheet, Platform } from 'react-native';
 import { 
   Input,

@@ -1,69 +1,43 @@
 import axios from 'axios';
 
 import {
-  GET_RECIPE,
-  GET_ALL_RECIPES,
-  GET_MOST_LIKED_RECIPES,
-  GET_POPULAR_RECIPES,
-  GET_NEW_RECIPES,
-
-
+  FETCH_RECIPE_DETAILS_REQUEST,
+  FETCH_RECIPE_DETAILS_SUCCESS,
+  FETCH_RECIPE_DETAILS_FAILURE,
   FETCH_RECIPES_REQUEST,
   FETCH_RECIPES_SUCCESS,
-  FETCH_RECIPES_FAILURE
+  FETCH_RECIPES_FAILURE,
 } from '../constants/actionTypes';
 
 const env = process.env.NODE_ENV || 'development';
 const { API_URL } = require('../config/config')[env];
 
-export const getRecipe = recipeNameId => async dispatch => {
-  try {
-    const response = await axios.get(`${API_URL}/api/recipes/${recipeNameId}?`);
-    dispatch({
-      type: GET_RECIPE,
-      payload: response.data,
-    });
-  } catch (err) {
-    // console.log(err.response.data)
-    dispatch({
-      type: 'GET_RECIPE_ERROR',
-      error: err,
-    });
-  }
-};
+// FETCH RECIPE DETAILS ACTIONS
+export const fetchRecipeDetailsRequest = () => ({
+  type: FETCH_RECIPE_DETAILS_REQUEST,
+})
 
-export const getAllRecipes = params => async dispatch => {
-  try {
-    const response = await axios.get(`${API_URL}/api/recipes`, { params });
-    dispatch({
-      type: GET_ALL_RECIPES,
-      payload: response.data,
-    });
-  } catch (err) {
-    // console.log(err.response.data)
-    dispatch({
-      type: 'GET_ALL_RECIPES_ERROR',
-      error: err,
-    });
-  }
-};
+export const fetchRecipeDetailsSuccess = recipe => ({
+  type: FETCH_RECIPE_DETAILS_SUCCESS,
+  payload: recipe,
+})
 
-export const getMostLikedRecipes = params => async dispatch => {
-  try {
-    const response = await axios.get(`${API_URL}/api/recipes`, { params });
-    dispatch({
-      type: GET_MOST_LIKED_RECIPES,
-      payload: response.data,
-    });
-  } catch (err) {
-    // console.log(err.response.data)
-    dispatch({
-      type: 'GET_MOST_LIKED_RECIPES_ERROR',
-      error: err,
-    });
-  }
-};
+export const fetchRecipeDetailsFailure = err => ({
+  type: FETCH_RECIPE_DETAILS_FAILURE,
+  payload: err,
+})
 
+export const fetchRecipeDetails = _id => async dispatch => {
+  try {
+    dispatch(fetchRecipeDetailsRequest());
+    const response = await axios.get(`${API_URL}/api/recipes/${_id}?`);
+    dispatch(fetchRecipeDetailsSuccess(response.data));
+  } catch (err) {
+    dispatch(fetchRecipeDetailsFailure(err));
+  }
+}
+
+// FETCH RECIPES ACTIONS
 export const fetchRecipesRequest = category => ({
   type: FETCH_RECIPES_REQUEST,
   category

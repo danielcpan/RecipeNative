@@ -14,7 +14,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_RECIPE_DETAILS_REQUEST:
-      console.log("FETCH_RECIPE_DETAILS_REQUEST")
       return { 
         ...state, 
         isLoading: true, 
@@ -22,7 +21,6 @@ export default (state = initialState, action) => {
         error: null 
       };
     case FETCH_RECIPE_DETAILS_SUCCESS:
-      console.log("FETCH_RECIPE_DETAILS_SUCCESS")
       return { 
         ...state, 
         isLoading: false,
@@ -31,7 +29,6 @@ export default (state = initialState, action) => {
         recipe: action.payload
       };
     case FETCH_RECIPE_DETAILS_FAILURE:
-      console.log("FETCH_RECIPE_DETAILS_FAILURE");
       return { 
         ...state, 
         isLoading: false, 

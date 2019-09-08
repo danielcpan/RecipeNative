@@ -18,7 +18,6 @@ const createReducer = category => {
     switch (action.type) {
       case FETCH_RECIPES_REQUEST:
         if (category === action.category) {
-          console.log("FETCH_RECIPES_REQUEST")
           return { 
             ...state, 
             isLoading: true, 
@@ -29,7 +28,6 @@ const createReducer = category => {
         return state;
       case FETCH_RECIPES_SUCCESS:
         if (category === action.category) {
-          console.log("FETCH_RECIPES_SUCCESS")
           return { 
             ...state, 
             isLoading: false,
@@ -41,7 +39,6 @@ const createReducer = category => {
         return state;
       case FETCH_RECIPES_FAILURE:
         if (category === action.category) {
-          console.log("FETCH_RECIPES_FAILURE");
           return { 
             ...state, 
             isLoading: false, 

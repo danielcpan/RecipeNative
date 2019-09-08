@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import theme from '../constants/Styles';
+import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
 import { ScrollView, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { 

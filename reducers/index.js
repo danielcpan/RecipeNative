@@ -8,7 +8,6 @@ import {
   mostLikedRecipeListReducer
  } from './recipeListReducer';
 // import snackbarReducer from './snackbarReducer';
-// import errorReducer from './errorReducer';
 
 export default combineReducers({
   recipeDetails: recipeDetailsReducer,
@@ -18,5 +17,4 @@ export default combineReducers({
   featuredRecipes: featuredRecipeListReducer,
   mostLikedRecipes: mostLikedRecipeListReducer,
   // snackbars: snackbarReducer,
-  // errors: errorReducer,
 });

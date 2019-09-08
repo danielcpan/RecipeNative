@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import theme from '../constants/Styles';
+import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
 import { ScrollView, View, Image, StyleSheet, Platform } from 'react-native';
 import { 
@@ -19,7 +19,7 @@ import {
 } from 'native-base';
 import SearchInput from '../components/SearchInput';
 import RecipeList from '../components/RecipeList';
-import { getRecipe } from '../actions/recipeActions';
+import { fetchRecipeDetails } from '../actions/recipeActions';
 
 
 const RecipeDetailScreen = props => {
@@ -29,7 +29,7 @@ const RecipeDetailScreen = props => {
   })  
   const { recipe } = props;
   // const { params } = props.navigation.state
-  console.log("params")
+  // console.log("params")
   const { titleMain, titleSub, author, calories, cookTimeMins, ratingCount, ratingValue, servings, thumbnailUrl} = props.navigation.state.params
   // console.log(props.navigation.state.params)
 
@@ -329,7 +329,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRecipe: _id => dispatch(getRecipe(_id)),
+  fetchRecipeDetails: _id => dispatch(fetchRecipeDetails(_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetailScreen);
