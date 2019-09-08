@@ -18,7 +18,7 @@ import RecipeList from '../components/RecipeList';
 import { fetchRecipes } from '../actions/recipeActions';
 
 
-const SearchScreen = props => {
+const DiscoverScreen = props => {
   const [mostLikedParams, setMostLikedParams] = useState({
     skip: 0,
     limit: 15,
@@ -137,7 +137,7 @@ const SearchScreen = props => {
   );
 }
 
-SearchScreen.navigationOptions = {
+DiscoverScreen.navigationOptions = {
   headerStyle: {
     borderBottomWidth: 0,
   },
@@ -235,4 +235,4 @@ const mapDispatchToProps = dispatch => ({
   fetchRecipes: (category, params) => dispatch(fetchRecipes(category, params)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen);

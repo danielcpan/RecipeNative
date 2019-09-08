@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import RecipesScreen from '../screens/RecipesScreen';
-import SearchScreen from '../screens/SearchScreen';
+import DiscoverScreen from '../screens/DiscoverScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
 
@@ -28,7 +28,7 @@ const RecipesStack = createStackNavigator(
 );
 
 RecipesStack.navigationOptions = {
-  tabBarLabel: 'Recipes',
+  title: 'Recipes',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -39,26 +39,26 @@ RecipesStack.navigationOptions = {
 
 RecipesStack.path = '';
 
-const SearchStack = createStackNavigator(
+const DiscoverStack = createStackNavigator(
   {
-    Search: SearchScreen,
-    // Search: RecipeDetailScreen
+    Discover: DiscoverScreen,
+    // Discover: RecipeDetailScreen
     RecipesDetails: RecipeDetailScreen,
   },
   config
 );
 
-SearchStack.navigationOptions = {
-  tabBarLabel: 'Search',
+DiscoverStack.navigationOptions = {
+  title: 'Discover',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon 
       focused={focused} 
-      name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} 
+      name={Platform.OS === 'ios' ? 'ios-compass' : 'md-compass'} 
     />
   ),
 };
 
-SearchStack.path = '';
+DiscoverStack.path = '';
 
 const FavoritesStack = createStackNavigator(
   {
@@ -68,7 +68,7 @@ const FavoritesStack = createStackNavigator(
 );
 
 FavoritesStack.navigationOptions = {
-  tabBarLabel: 'Favorites',
+  title: 'Favorites',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon 
       focused={focused} 
@@ -80,11 +80,15 @@ FavoritesStack.navigationOptions = {
 FavoritesStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  SearchStack,
+  DiscoverStack,
   RecipesStack,
-  // SearchStack,
+  // DiscoverStack,
   FavoritesStack,
-  // RecipesDetailsStack
+}, {
+  tabBarOptions: { 
+    showLabel: false,
+    initialRouteName: 'DiscoverStack'
+  }
 });
 
 tabNavigator.path = '';

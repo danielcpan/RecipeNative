@@ -29,7 +29,7 @@ const RecipeList = props => {
     keyExtractor={x => x._id}
     onEndReached={() => autoLoadMore ? handleEnd() : null }
     onEndReachedThreshold={0}
-    ListFooterComponent={() => (isLoading) ? <ActivityIndicator animating/> : null}
+    ListFooterComponent={() => (isLoading) ? <ActivityIndicator animating /> : null}
     renderItem={({ item }) => (
       <ListItem 
         onPress={() => navigation.push('RecipesDetails', item)}
