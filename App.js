@@ -1,7 +1,7 @@
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -43,6 +43,7 @@ async function loadResourcesAsync() {
       ...Ionicons.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
+      'vincHand': require('./assets/fonts/vincHand.ttf'),
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
     }),
   ]);

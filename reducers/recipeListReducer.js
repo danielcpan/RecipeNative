@@ -33,7 +33,8 @@ const createReducer = category => {
             isLoading: false,
             hasErrored: false,
             error: null,
-            recipes: [...state.recipes, ...action.payload] 
+            // recipes: [...state.recipes, ...action.payload]
+            recipes: action.payload
           };
         }
         return state;

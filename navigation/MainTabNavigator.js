@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import RecipesScreen from '../screens/RecipesScreen';
+import HomeScreen from '../screens/HomeScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
@@ -20,29 +20,28 @@ const RecipesDetailsStack = createStackNavigator(
   config
 );
 
-const RecipesStack = createStackNavigator(
+const HomeStack = createStackNavigator(
   {
-    Recipes: RecipesScreen,
+    Home: HomeScreen,
   },
   config
 );
 
-RecipesStack.navigationOptions = {
-  title: 'Recipes',
+HomeStack.navigationOptions = {
+  title: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'}
+      name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'}
     />
   ),
 };
 
-RecipesStack.path = '';
+HomeStack.path = '';
 
 const DiscoverStack = createStackNavigator(
   {
     Discover: DiscoverScreen,
-    // Discover: RecipeDetailScreen
     RecipesDetails: RecipeDetailScreen,
   },
   config
@@ -80,8 +79,9 @@ FavoritesStack.navigationOptions = {
 FavoritesStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
+  HomeStack,
   DiscoverStack,
-  RecipesStack,
+  // HomeStack,
   // DiscoverStack,
   FavoritesStack,
 }, {
