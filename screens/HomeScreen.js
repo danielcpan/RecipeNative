@@ -28,9 +28,19 @@ const HomeScreen = props => {
     skip: 0,
     limit: 15,
   })
+  const [popularParams, setPopularParams] = useState({
+    skip: 0,
+    limit: 5,
+  })
+  const [newParams, setNewParams] = useState({
+    skip: 0,
+    limit: 5,
+  })  
   const { mostLikedRecipes, fetchRecipes } = props;
 
   useEffect(() => {
+    fetchRecipes('new', newParams);
+    fetchRecipes('popular', popularParams);
     fetchRecipes('most-liked', mostLikedParams);
   }, [])
 
@@ -241,7 +251,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipes: (category, params) => dispatch(fetchRecipes(category, params))
+  fetchRecipes: (category, params, options) => dispatch(fetchRecipes(category, params, options))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

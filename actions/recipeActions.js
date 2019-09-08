@@ -9,6 +9,8 @@ import {
   FETCH_RECIPES_SUCCESS,
   FETCH_RECIPES_FAILURE,
 } from '../constants/actionTypes';
+import store from '../store';
+import { kebabToCamel } from '../utils/action.utils';
 
 const env = process.env.NODE_ENV || 'development';
 const { API_URL } = require('../config/config')[env];
@@ -60,7 +62,13 @@ export const fetchRecipesFailure = (category, err) => ({
   category
 })
 
-export const fetchRecipes = (category, params) => async dispatch => {
+export const fetchRecipes = (category, params, options = {}) => async dispatch => {
+  const reducerName = kebabToCamel(category)+'Recipes'
+  const { recipes } = store.getState()[reducerName]
+  
+  // Return Cached if exists
+  if (recipes.length > 0 && !options.refresh) return;
+
   try {
     dispatch(fetchRecipesRequest(category));
     const response = await axios.get(`${API_URL}/api/recipes/${category}`, { params });

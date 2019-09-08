@@ -277,7 +277,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipes: (category, params) => dispatch(fetchRecipes(category, params)),
+  fetchRecipes: (category, params, options) => dispatch(fetchRecipes(category, params, options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen);
