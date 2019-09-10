@@ -15,19 +15,16 @@ const initialState = {
 
 const createReducer = category => {
   return (state = initialState, action) => {
-    switch (action.type) {
-      case FETCH_RECIPES_REQUEST:
-        if (category === action.category) {
+    if (category === action.category) {
+      switch (action.type) {
+        case FETCH_RECIPES_REQUEST:
           return { 
             ...state, 
             isLoading: true, 
             hasErrored: false, 
             error: null 
           };
-        }
-        return state;
-      case FETCH_RECIPES_SUCCESS:
-        if (category === action.category) {
+        case FETCH_RECIPES_SUCCESS:
           return { 
             ...state, 
             isLoading: false,
@@ -36,21 +33,18 @@ const createReducer = category => {
             // recipes: [...state.recipes, ...action.payload]
             recipes: action.payload
           };
-        }
-        return state;
-      case FETCH_RECIPES_FAILURE:
-        if (category === action.category) {
+        case FETCH_RECIPES_FAILURE:
           return { 
             ...state, 
             isLoading: false, 
             hasErrored: true, 
             error: action.payload 
           };
-        }
-        return state;
-      default:
-        return state;
+        default:
+          return state;
+      }
     }
+    return state;
   }
 }
 

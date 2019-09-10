@@ -19,12 +19,23 @@ import RecipeDetailsInfoSection from '../components/RecipeDetailsInfoSection';
 import { resetRecipeDetails ,fetchRecipeDetails } from '../actions/recipeActions';
 
 const RecipeDetailScreen = props => {
-  const { _id, titleMain, titleSub, author, calories, cookTimeMins, ratingCount, ratingValue, servings, thumbnailUrl} = props.navigation.state.params;
+  const { 
+    _id, 
+    titleMain, 
+    titleSub, 
+    author, 
+    calories, 
+    cookTimeMins, 
+    ratingCount, 
+    ratingValue, 
+    servings, 
+    thumbnailUrl, 
+    description, 
+    ingredientsImageUrl,
+  } = props.navigation.state.params;
   const { 
     recipeDetails: {
       recipe: {
-        description = '', 
-        ingredientsImageUrl = '', 
         ingredients = [], 
         instructions = [],
       },
@@ -89,11 +100,14 @@ const RecipeDetailScreen = props => {
           <Text note>Description</Text>
         </View>
         <View>
-          {(isLoading) ? <ActivityIndicator animating /> : (
+          <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
+            {description}
+          </Text>
+          {/* {(isLoading) ? <ActivityIndicator animating /> : (
             <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
               {description}
-            </Text>            
-          )}
+            </Text>
+          )} */}
         </View>
       </View>
 
