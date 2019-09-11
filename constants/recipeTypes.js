@@ -3,5 +3,5 @@ export const RECIPE_TYPES = {
   NEW: 'new',
   POPULAR: 'popular',
   FEATURED: 'featured',
-  MOST_LIKED: 'most-liked',
+  MOST_LIKED: 'mostLiked',
 };

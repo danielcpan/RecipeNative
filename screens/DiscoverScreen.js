@@ -14,8 +14,10 @@ import {
 } from 'native-base';
 import SearchInput from '../components/SearchInput';
 import RecipeList from '../components/RecipeList';
+
+import { RECIPE_TYPES } from '../constants/recipeTypes';
 import { fetchRecipes } from '../actions/recipeActions';
-import { getRecipes } from '../reducers/recipeListReducer';
+import { selectRecipes } from '../reducers/recipeListReducer';
 
 const popularCollections = [
   'Beef', 'Fish', 'Lamb', 'Pork', 'Poultry', 'Shellfish', 'Vegetarian', 'African', 'American', 
@@ -38,20 +40,12 @@ const DiscoverScreen = props => {
     skip: 0,
     limit: 5,
   })
-  const { mostLikedRecipes2 ,mostLikedIds, byId, mostLikedRecipes, popularRecipes, newRecipes, fetchRecipes } = props;
-
-  console.log(mostLikedRecipes2)
-
-  // if (mostLikedRecipes.mostLikedRecipes) {
-    // const arr = mostLikedIds.map(id => byId[id])
-    // console.log("arr")
-    // console.log(arr)
-  // }
+  const { mostLikedRecipes, popularRecipes, newRecipes, mostLikedIsLoading, popularIsLoading, newIsLoading, fetchRecipes } = props;
   
   useEffect(() => {
-    fetchRecipes('most-liked', mostLikedParams);
-    fetchRecipes('popular', popularParams);
-    fetchRecipes('new', newParams);
+    fetchRecipes(RECIPE_TYPES.MOST_LIKED, mostLikedParams);
+    fetchRecipes(RECIPE_TYPES.POPULAR, popularParams);
+    fetchRecipes(RECIPE_TYPES.NEW, newParams);
   }, [])
 
   return (
@@ -74,8 +68,7 @@ const DiscoverScreen = props => {
           horizontal= {true}
           style={styles.cardList}
         >
-          {/* {mostLikedRecipes.recipes.map((item, idx) => ( */}
-          {mostLikedRecipes2.map((item, idx) => (
+          {mostLikedRecipes.map((item, idx) => (
             <Card transparent key={item._id}>
               <CardItem cardBody>
                 <View style={styles.cardImageContainer}>
@@ -134,12 +127,12 @@ const DiscoverScreen = props => {
           </View>
         </View>
         <RecipeList 
-          data={popularRecipes.recipes}
-          isLoading={popularRecipes.isLoading}
+          data={popularRecipes}
+          isLoading={popularIsLoading}
           navigation={props.navigation}
           autoLoadMore={false}
         />
-      </View>      
+      </View>
 
       <View>
         <View style={styles.container}>
@@ -149,8 +142,8 @@ const DiscoverScreen = props => {
           </View>
         </View>
         <RecipeList 
-          data={popularRecipes.recipes}
-          isLoading={popularRecipes.isLoading}
+          data={popularRecipes}
+          isLoading={popularIsLoading}
           navigation={props.navigation}
           autoLoadMore={false}
         />
@@ -164,8 +157,8 @@ const DiscoverScreen = props => {
           </View>
         </View>
         <RecipeList 
-          data={newRecipes.recipes}
-          isLoading={popularRecipes.isLoading}
+          data={newRecipes}
+          isLoading={newIsLoading}
           navigation={props.navigation}
           autoLoadMore={false}
         />
@@ -275,19 +268,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  mostLikedRecipes: {
-    ...state.mostLikedRecipes
-  },
-  popularRecipes: {
-    ...state.popularRecipes
-  },
-  newRecipes: {
-    ...state.newRecipes
-  },
-  mostLikedIds: state.mostLikedRecipes.mostLikedIds,
-  byId: state.mostLikedRecipes.byId,
-  mostLikedRecipes2: getRecipes(state, 'mostLikedIds')
-
+  mostLikedIsLoading: state.recipesList.mostLikedIsLoading,
+  newIsLoading: state.recipesList.newIsLoading,
+  popularIsLoading: state.recipesList.popularIsLoading,
+  mostLikedRecipes: selectRecipes(state, RECIPE_TYPES.MOST_LIKED),
+  popularRecipes: selectRecipes(state, RECIPE_TYPES.POPULAR),
+  newRecipes: selectRecipes(state, RECIPE_TYPES.NEW)
 });
 
 const mapDispatchToProps = dispatch => ({

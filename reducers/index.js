@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import recipeDetailsReducer from './recipeDetailsReducer';
-import { 
+import recipeListReducer, { 
   newRecipeListReducer,
   searchedRecipeListReducer,
   popularRecipeListReducer,
@@ -11,10 +11,11 @@ import {
 
 export default combineReducers({
   recipeDetails: recipeDetailsReducer,
-  searchedRecipes: searchedRecipeListReducer,
-  newRecipes: newRecipeListReducer,
-  popularRecipes: popularRecipeListReducer,
-  featuredRecipes: featuredRecipeListReducer,
-  mostLikedRecipes: mostLikedRecipeListReducer,
+  recipesList: recipeListReducer
+  // searchedRecipes: searchedRecipeListReducer,
+  // newRecipes: newRecipeListReducer,
+  // popularRecipes: popularRecipeListReducer,
+  // featuredRecipes: featuredRecipeListReducer,
+  // mostLikedRecipes: mostLikedRecipeListReducer,
   // snackbars: snackbarReducer,
 });

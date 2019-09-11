@@ -21,7 +21,9 @@ import {
   Left,
 } from 'native-base';
 
+import { RECIPE_TYPES } from '../constants/recipeTypes';
 import { fetchRecipes } from '../actions/recipeActions';
+import { selectRecipes } from '../reducers/recipeListReducer';
 
 const HomeScreen = props => {
   const [mostLikedParams, setMostLikedParams] = useState({
@@ -39,14 +41,14 @@ const HomeScreen = props => {
   const { mostLikedRecipes, fetchRecipes } = props;
 
   useEffect(() => {
-    fetchRecipes('new', newParams);
-    fetchRecipes('popular', popularParams);
-    fetchRecipes('most-liked', mostLikedParams);
+    // fetchRecipes('new', newParams);
+    // fetchRecipes('popular', popularParams);
+    fetchRecipes(RECIPE_TYPES.MOST_LIKED, mostLikedParams);
   }, [])
 
   const handleEnd = () => {
     setParams({ ...params, skip: params.skip += 15})
-    // fetchRecipes('featured' ,params)
+    // fetchRecipes('featured', params)
   }
 
   return (
@@ -81,7 +83,7 @@ const HomeScreen = props => {
           horizontal= {true}
           style={styles.cardList}
         >
-          {mostLikedRecipes.recipes.map((item, idx) => (
+          {mostLikedRecipes.map((item, idx) => (
             <Card transparent key={item._id}>
               <CardItem cardBody>
                 <View style={styles.cardImageContainer}>
@@ -245,9 +247,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  mostLikedRecipes: {
-    ...state.mostLikedRecipes
-  },
+  // mostLikedRecipes: {
+  //   ...state.mostLikedRecipes
+  // },
+  mostLikedRecipes: selectRecipes(state, RECIPE_TYPES.MOST_LIKED)
 });
 
 const mapDispatchToProps = dispatch => ({

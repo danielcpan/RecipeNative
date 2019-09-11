@@ -12,7 +12,7 @@ import {
   FETCH_RECIPES_FAILURE,
 } from '../constants/actionTypes';
 import store from '../store';
-import { kebabToCamel } from '../utils/action.utils';
+import { kebabToCamel, camelToKebab } from '../utils/action.utils';
 
 const env = process.env.NODE_ENV || 'development';
 const { API_URL } = require('../config/config')[env];
@@ -49,39 +49,38 @@ export const fetchRecipeDetails = _id => async dispatch => {
 // FETCH RECIPES ACTIONS
 export const fetchRecipesRequest = category => ({
   type: FETCH_RECIPES_REQUEST,
-  category
+  category,
 })
 
-export const fetchRecipesSuccess = (category, recipes) => ({
+export const fetchRecipesSuccess = (category, recipes, ids) => ({
   type: FETCH_RECIPES_SUCCESS,
   payload: recipes,
-  category
+  category,
+  ids,
 })
 
 export const fetchRecipesFailure = (category, err) => ({
   type: FETCH_RECIPES_FAILURE,
   payload: err,
-  category
+  category,
 })
 
 export const fetchRecipes = (category, params, options = {}) => async dispatch => {
-  const reducerName = kebabToCamel(category)+'Recipes'
-  const { recipes } = store.getState()[reducerName]
-  
+  const recipeIds =  store.getState().recipesList[`${category}Ids`]
+
   // Return Cached if exists
-  if (recipes.length > 0 && !options.refresh) return;
+  if (recipeIds.length > 0 && !options.refresh) return;
 
   try {
     dispatch(fetchRecipesRequest(category));
-    const response = await axios.get(`${API_URL}/api/recipes/${category}`, { params });
-
+    const response = await axios.get(`${API_URL}/api/recipes/${camelToKebab(category)}`, { params });
     const normalizedData = normalize(response.data, schema.recipeListSchema);
-    // console.log("got normalized")
-    // console.log(normalizedData)
+    const { entities: { recipes, instructions }, result } = normalizedData;
 
-    // dispatch(fetchRecipesSuccess(category, response.data));
-    dispatch(fetchRecipesSuccess(category, normalizedData));
+    dispatch(fetchRecipesSuccess(category, recipes, result));
   } catch (err) {
+    console.log('err')
+    console.log(err)
     dispatch(fetchRecipesFailure(category, err));
   }
 }
