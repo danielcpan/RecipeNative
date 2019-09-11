@@ -11,8 +11,9 @@ import {
   FETCH_RECIPES_SUCCESS,
   FETCH_RECIPES_FAILURE,
 } from '../constants/actionTypes';
+import { fetchInstructionsSuccess } from './instructionActions';
 import store from '../store';
-import { kebabToCamel, camelToKebab } from '../utils/action.utils';
+import { camelToKebab } from '../utils/action.utils';
 
 const env = process.env.NODE_ENV || 'development';
 const { API_URL } = require('../config/config')[env];
@@ -66,7 +67,7 @@ export const fetchRecipesFailure = (category, err) => ({
 })
 
 export const fetchRecipes = (category, params, options = {}) => async dispatch => {
-  const recipeIds =  store.getState().recipesList[`${category}Ids`]
+  const recipeIds =  store.getState().recipes[`${category}Ids`]
 
   // Return Cached if exists
   if (recipeIds.length > 0 && !options.refresh) return;
@@ -78,9 +79,8 @@ export const fetchRecipes = (category, params, options = {}) => async dispatch =
     const { entities: { recipes, instructions }, result } = normalizedData;
 
     dispatch(fetchRecipesSuccess(category, recipes, result));
+    dispatch(fetchInstructionsSuccess(instructions))
   } catch (err) {
-    console.log('err')
-    console.log(err)
     dispatch(fetchRecipesFailure(category, err));
   }
 }

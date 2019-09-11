@@ -1,21 +1,12 @@
 import { combineReducers } from 'redux';
 import recipeDetailsReducer from './recipeDetailsReducer';
-import recipeListReducer, { 
-  newRecipeListReducer,
-  searchedRecipeListReducer,
-  popularRecipeListReducer,
-  featuredRecipeListReducer,
-  mostLikedRecipeListReducer
- } from './recipeListReducer';
+import instructionReducer from './instructionReducer';
+import recipesReducer from './recipeReducer';
 // import snackbarReducer from './snackbarReducer';
 
 export default combineReducers({
   recipeDetails: recipeDetailsReducer,
-  recipesList: recipeListReducer
-  // searchedRecipes: searchedRecipeListReducer,
-  // newRecipes: newRecipeListReducer,
-  // popularRecipes: popularRecipeListReducer,
-  // featuredRecipes: featuredRecipeListReducer,
-  // mostLikedRecipes: mostLikedRecipeListReducer,
+  instructions: instructionReducer,
+  recipes: recipesReducer
   // snackbars: snackbarReducer,
 });

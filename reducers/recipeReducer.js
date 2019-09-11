@@ -5,13 +5,11 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
-  // isLoading: false,
   mostLikedIsLoading: false,
   newIsLoading: false,
   popularIsLoading: false,
   hasErrored: false,
   error: null,
-  recipes: [],
   byId: {},
   allIds: [],
   mostLikedIds: [],
@@ -24,7 +22,6 @@ const initialState = {
       case FETCH_RECIPES_REQUEST:
         return { 
           ...state, 
-          // isLoading: true, 
           [`${action.category}IsLoading`]: true, 
           hasErrored: false, 
           error: null 
@@ -42,7 +39,6 @@ const initialState = {
         return { 
           ...state, 
           [`${action.category}IsLoading`]: false,
-          // isLoading: false, 
           hasErrored: true, 
           error: action.payload 
         };
@@ -53,5 +49,5 @@ const initialState = {
 
 // SELECTORS
 export const selectRecipes = (state, category) => {
-  return state.recipesList[`${category}Ids`].map(id => state.recipesList.byId[id]);
+  return state.recipes[`${category}Ids`].map(id => state.recipes.byId[id]);
 }

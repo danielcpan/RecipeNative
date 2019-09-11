@@ -23,7 +23,7 @@ import {
 
 import { RECIPE_TYPES } from '../constants/recipeTypes';
 import { fetchRecipes } from '../actions/recipeActions';
-import { selectRecipes } from '../reducers/recipeListReducer';
+import { selectRecipes } from '../reducers/recipeReducer';
 
 const HomeScreen = props => {
   const [mostLikedParams, setMostLikedParams] = useState({
