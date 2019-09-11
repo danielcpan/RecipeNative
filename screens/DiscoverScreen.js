@@ -15,6 +15,7 @@ import {
 import SearchInput from '../components/SearchInput';
 import RecipeList from '../components/RecipeList';
 import { fetchRecipes } from '../actions/recipeActions';
+import { getRecipes } from '../reducers/recipeListReducer';
 
 const popularCollections = [
   'Beef', 'Fish', 'Lamb', 'Pork', 'Poultry', 'Shellfish', 'Vegetarian', 'African', 'American', 
@@ -37,7 +38,15 @@ const DiscoverScreen = props => {
     skip: 0,
     limit: 5,
   })
-  const { mostLikedRecipes, popularRecipes, newRecipes, fetchRecipes } = props;
+  const { mostLikedRecipes2 ,mostLikedIds, byId, mostLikedRecipes, popularRecipes, newRecipes, fetchRecipes } = props;
+
+  console.log(mostLikedRecipes2)
+
+  // if (mostLikedRecipes.mostLikedRecipes) {
+    // const arr = mostLikedIds.map(id => byId[id])
+    // console.log("arr")
+    // console.log(arr)
+  // }
   
   useEffect(() => {
     fetchRecipes('most-liked', mostLikedParams);
@@ -65,7 +74,8 @@ const DiscoverScreen = props => {
           horizontal= {true}
           style={styles.cardList}
         >
-          {mostLikedRecipes.recipes.map((item, idx) => (
+          {/* {mostLikedRecipes.recipes.map((item, idx) => ( */}
+          {mostLikedRecipes2.map((item, idx) => (
             <Card transparent key={item._id}>
               <CardItem cardBody>
                 <View style={styles.cardImageContainer}>
@@ -274,6 +284,10 @@ const mapStateToProps = state => ({
   newRecipes: {
     ...state.newRecipes
   },
+  mostLikedIds: state.mostLikedRecipes.mostLikedIds,
+  byId: state.mostLikedRecipes.byId,
+  mostLikedRecipes2: getRecipes(state, 'mostLikedIds')
+
 });
 
 const mapDispatchToProps = dispatch => ({

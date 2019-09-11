@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { normalize } from 'normalizr';
+import * as schema from '../schema';
 
 import {
   RESET_RECIPE_DETAILS,
@@ -72,7 +74,13 @@ export const fetchRecipes = (category, params, options = {}) => async dispatch =
   try {
     dispatch(fetchRecipesRequest(category));
     const response = await axios.get(`${API_URL}/api/recipes/${category}`, { params });
-    dispatch(fetchRecipesSuccess(category, response.data));
+
+    const normalizedData = normalize(response.data, schema.recipeListSchema);
+    // console.log("got normalized")
+    // console.log(normalizedData)
+
+    // dispatch(fetchRecipesSuccess(category, response.data));
+    dispatch(fetchRecipesSuccess(category, normalizedData));
   } catch (err) {
     dispatch(fetchRecipesFailure(category, err));
   }
