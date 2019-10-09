@@ -16,7 +16,9 @@ import {
 import IngredientsTab from '../components/IngredientsTab';
 import InstructionsTab from '../components/InstructionsTab';
 import RecipeDetailsInfoSection from '../components/RecipeDetailsInfoSection';
-import { resetRecipeDetails ,fetchRecipeDetails } from '../actions/recipeActions';
+import * as RecipeActions from '../actions/recipeActions';
+import { getRecipe } from '../reducers/recipeReducer';
+// import { resetRecipeDetails, fetchRecipeDetails } from '../actions/recipeActions';
 
 const RecipeDetailScreen = props => {
   const { 
@@ -32,22 +34,14 @@ const RecipeDetailScreen = props => {
     thumbnailUrl, 
     description, 
     ingredientsImageUrl,
+    ingredients = [],
+    instructions = [],
   } = props.navigation.state.params;
-  const { 
-    recipeDetails: {
-      recipe: {
-        ingredients = [], 
-        instructions = [],
-      },
-      isLoading,
-      hasErroed,
-      error,
-    },
-    fetchRecipeDetails 
-  } = props;
+  
+  const { isLoading, hasErroed, error, recipe, fetchRecipe } = props;
   
   useEffect(() => {
-    fetchRecipeDetails(_id)
+    fetchRecipe(_id);
   }, [])
 
   return (
@@ -103,11 +97,6 @@ const RecipeDetailScreen = props => {
           <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
             {description}
           </Text>
-          {/* {(isLoading) ? <ActivityIndicator animating /> : (
-            <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
-              {description}
-            </Text>
-          )} */}
         </View>
       </View>
 
@@ -221,15 +210,18 @@ const styles = StyleSheet.create({
   }
 });
 
+
 const mapStateToProps = state => ({
-  recipeDetails: {
-    ...state.recipeDetails
-  },
+  isLoading: state.recipes.isLoading,
+  hasErroed: state.recipes.hasErroed,
+  error: state.recipes.error,
+  recipe: getRecipe(state)
 });
 
 const mapDispatchToProps = dispatch => ({
+  fetchRecipe: _id => dispatch(RecipeActions.fetchRecipe(_id)),
   // resetRecipeDetails: () => dispatch(resetRecipeDetails()),
-  fetchRecipeDetails: _id => dispatch(fetchRecipeDetails(_id)),
+  // fetchRecipeDetails: _id => dispatch(fetchRecipeDetails(_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetailScreen);

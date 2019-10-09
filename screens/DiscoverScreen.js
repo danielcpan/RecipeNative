@@ -17,7 +17,7 @@ import RecipeList from '../components/RecipeList';
 
 import { RECIPE_TYPES } from '../constants/recipeTypes';
 import { fetchRecipes } from '../actions/recipeActions';
-import { selectRecipes } from '../reducers/recipeReducer';
+import { getRecipes } from '../reducers/recipeReducer';
 
 const popularCollections = [
   'Beef', 'Fish', 'Lamb', 'Pork', 'Poultry', 'Shellfish', 'Vegetarian', 'African', 'American', 
@@ -271,9 +271,9 @@ const mapStateToProps = state => ({
   mostLikedIsLoading: state.recipes.mostLikedIsLoading,
   newIsLoading: state.recipes.newIsLoading,
   popularIsLoading: state.recipes.popularIsLoading,
-  mostLikedRecipes: selectRecipes(state, RECIPE_TYPES.MOST_LIKED),
-  popularRecipes: selectRecipes(state, RECIPE_TYPES.POPULAR),
-  newRecipes: selectRecipes(state, RECIPE_TYPES.NEW)
+  mostLikedRecipes: getRecipes(state, RECIPE_TYPES.MOST_LIKED),
+  popularRecipes: getRecipes(state, RECIPE_TYPES.POPULAR),
+  newRecipes: getRecipes(state, RECIPE_TYPES.NEW)
 });
 
 const mapDispatchToProps = dispatch => ({

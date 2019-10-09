@@ -23,7 +23,7 @@ import {
 
 import { RECIPE_TYPES } from '../constants/recipeTypes';
 import { fetchRecipes } from '../actions/recipeActions';
-import { selectRecipes } from '../reducers/recipeReducer';
+import { getRecipes } from '../reducers/recipeReducer';
 
 const HomeScreen = props => {
   const [mostLikedParams, setMostLikedParams] = useState({
@@ -250,7 +250,7 @@ const mapStateToProps = state => ({
   // mostLikedRecipes: {
   //   ...state.mostLikedRecipes
   // },
-  mostLikedRecipes: selectRecipes(state, RECIPE_TYPES.MOST_LIKED)
+  mostLikedRecipes: getRecipes(state, RECIPE_TYPES.MOST_LIKED)
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,12 +1,8 @@
 import { combineReducers } from 'redux';
-import recipeDetailsReducer from './recipeDetailsReducer';
-import instructionReducer from './instructionReducer';
+import errorReducer from './errorReducer';
 import recipesReducer from './recipeReducer';
-// import snackbarReducer from './snackbarReducer';
 
 export default combineReducers({
-  recipeDetails: recipeDetailsReducer,
-  instructions: instructionReducer,
+  errors: errorReducer,
   recipes: recipesReducer
-  // snackbars: snackbarReducer,
 });

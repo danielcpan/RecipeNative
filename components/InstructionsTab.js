@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import theme from '../constants/theme';
 import { 
   View, 
@@ -13,6 +14,10 @@ import {
 
 const InstructionsTab = props => {
   const { instructions, isLoading } = props;
+
+  // useEffect(() => {
+    
+  // }, [])
 
   return (
     <View>
@@ -51,3 +56,17 @@ const InstructionsTab = props => {
 }
 
 export default InstructionsTab;
+
+// const mapStateToProps = state => ({
+//   recipeDetails: {
+//     ...state.recipeDetails
+//   },
+// });
+
+// const mapDispatchToProps = dispatch => ({
+//   get
+//   // resetRecipeDetails: () => dispatch(resetRecipeDetails()),
+//   fetchRecipeDetails: _id => dispatch(fetchRecipeDetails(_id)),
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(InstructionsTab);

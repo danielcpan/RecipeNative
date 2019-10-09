@@ -26,7 +26,7 @@ export const instructionSchema = new schema.Entity('instructions', {
 
 export const recipeSchema = new schema.Entity('recipes', {
   // recipes: [recipe],
-  instructions: [instructionSchema],
+  // instructions: [instructionSchema],
   // ingredients: [ingredientSchema]
 }, { idAttribute: '_id' });
 
