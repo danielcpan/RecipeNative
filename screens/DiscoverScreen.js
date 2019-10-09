@@ -15,8 +15,8 @@ import {
 import SearchInput from '../components/SearchInput';
 import RecipeList from '../components/RecipeList';
 
-import { RECIPE_TYPES } from '../constants/recipeTypes';
-import { fetchRecipes } from '../actions/recipeActions';
+import * as RecipeTypes from '../constants/recipeTypes';
+import * as RecipeActions from '../actions/recipeActions';
 import { getRecipes } from '../reducers/recipeReducer';
 
 const popularCollections = [
@@ -43,9 +43,9 @@ const DiscoverScreen = props => {
   const { mostLikedRecipes, popularRecipes, newRecipes, mostLikedIsLoading, popularIsLoading, newIsLoading, fetchRecipes } = props;
   
   useEffect(() => {
-    fetchRecipes(RECIPE_TYPES.MOST_LIKED, mostLikedParams);
-    fetchRecipes(RECIPE_TYPES.POPULAR, popularParams);
-    fetchRecipes(RECIPE_TYPES.NEW, newParams);
+    fetchRecipes(RecipeTypes.MOST_LIKED, mostLikedParams);
+    fetchRecipes(RecipeTypes.POPULAR, popularParams);
+    fetchRecipes(RecipeTypes.NEW, newParams);
   }, [])
 
   return (
@@ -271,13 +271,13 @@ const mapStateToProps = state => ({
   mostLikedIsLoading: state.recipes.mostLikedIsLoading,
   newIsLoading: state.recipes.newIsLoading,
   popularIsLoading: state.recipes.popularIsLoading,
-  mostLikedRecipes: getRecipes(state, RECIPE_TYPES.MOST_LIKED),
-  popularRecipes: getRecipes(state, RECIPE_TYPES.POPULAR),
-  newRecipes: getRecipes(state, RECIPE_TYPES.NEW)
+  mostLikedRecipes: getRecipes(state, RecipeTypes.MOST_LIKED),
+  popularRecipes: getRecipes(state, RecipeTypes.POPULAR),
+  newRecipes: getRecipes(state, RecipeTypes.NEW)
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipes: (category, params, options) => dispatch(fetchRecipes(category, params, options)),
+  fetchRecipes: (category, params, options) => dispatch(RecipeActions.fetchRecipes(category, params, options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen);

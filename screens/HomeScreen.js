@@ -21,8 +21,8 @@ import {
   Left,
 } from 'native-base';
 
-import { RECIPE_TYPES } from '../constants/recipeTypes';
-import { fetchRecipes } from '../actions/recipeActions';
+import * as RecipeTypes from '../constants/recipeTypes';
+import * as RecipeActions from '../actions/recipeActions';
 import { getRecipes } from '../reducers/recipeReducer';
 
 const HomeScreen = props => {
@@ -43,7 +43,7 @@ const HomeScreen = props => {
   useEffect(() => {
     // fetchRecipes('new', newParams);
     // fetchRecipes('popular', popularParams);
-    fetchRecipes(RECIPE_TYPES.MOST_LIKED, mostLikedParams);
+    fetchRecipes(RecipeTypes.MOST_LIKED, mostLikedParams);
   }, [])
 
   const handleEnd = () => {
@@ -250,11 +250,11 @@ const mapStateToProps = state => ({
   // mostLikedRecipes: {
   //   ...state.mostLikedRecipes
   // },
-  mostLikedRecipes: getRecipes(state, RECIPE_TYPES.MOST_LIKED)
+  mostLikedRecipes: getRecipes(state, RecipeTypes.MOST_LIKED)
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipes: (category, params, options) => dispatch(fetchRecipes(category, params, options))
+  fetchRecipes: (category, params, options) => dispatch(RecipeActions.fetchRecipes(category, params, options))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
