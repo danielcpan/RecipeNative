@@ -1,10 +1,10 @@
 module.exports = {
   development: {
-    API_URL: 'http://localhost:5000',
+    API_ROOT: 'http://localhost:5000/api',
   },
   test: {
   },
   production: {
-    API_URL: "https://tiny-url-clone-api.herokuapp.com",
+    API_ROOT: "https://tiny-url-clone-api.herokuapp.com/api",
   },
 };

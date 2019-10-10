@@ -80,15 +80,24 @@ const initialState = {
           hasErrored: false, 
           error: null 
         };
+      // case FETCH_RECIPES_SUCCESS:
+      //   return { 
+      //     ...state, 
+      //     [`${action.category}IsLoading`]: false,
+      //     hasErrored: false,
+      //     error: null,
+      //     byId: { ...state.byId, ...action.payload },
+      //     [`${action.category}Ids`]: action.ids,
+      //   };
       case FETCH_RECIPES_SUCCESS:
         return { 
           ...state, 
           [`${action.category}IsLoading`]: false,
           hasErrored: false,
           error: null,
-          byId: { ...state.byId, ...action.payload },
-          [`${action.category}Ids`]: action.ids,
-        };
+          byId: { ...state.byId, ...action.entities },
+          [`${action.category}Ids`]: action.result,
+        };    
       case FETCH_RECIPES_FAILURE:
         return { 
           ...state, 

@@ -19,7 +19,7 @@ import {
 } from '../constants/actionTypes';
 
 const env = process.env.NODE_ENV || 'development';
-const { API_URL } = require('../config/config')[env];
+const { API_ROOT } = require('../config/config')[env];
 
 export const loadRecipe = _id => ({
   type: LOAD_RECIPE,
@@ -56,7 +56,7 @@ export const fetchRecipe = (_id, options = {}) => async dispatch => {
 
   try {
     dispatch(fetchRecipeRequest());
-    const response = await axios.get(`${API_URL}/api/recipes/${_id}`);
+    const response = await axios.get(`${API_ROOT}/api/recipes/${_id}`);
     const normalizedData = normalize(response.data, schema.recipeSchema);
     const { entities: { recipes }, result } = normalizedData;
 
@@ -96,7 +96,7 @@ export const fetchRecipes = (category, params, options = {}) => async dispatch =
 
   try {
     dispatch(fetchRecipesRequest(category));
-    const response = await axios.get(`${API_URL}/api/recipes/${GeneralUtils.camelToKebab(category)}`, { params });
+    const response = await axios.get(`${API_ROOT}/recipes/${GeneralUtils.camelToKebab(category)}`, { params });
     const normalizedData = normalize(response.data, schema.recipeListSchema);
     const { entities: { recipes }, result } = normalizedData;
 
@@ -108,6 +108,20 @@ export const fetchRecipes = (category, params, options = {}) => async dispatch =
     dispatch(ErrorActions.logError(err));
   }
 }
+
+export const loadRecipes = (category, params, options = {}) => ({
+  // Types of actions to emit before and after
+  types: [FETCH_RECIPES_REQUEST, FETCH_RECIPES_SUCCESS, FETCH_RECIPES_FAILURE],
+  // Check the cache (optional):
+  shouldCallAPI: state => state.recipes[`${category}Ids`].length === 0,
+  // Perform the fetching:
+  callAPI: () => axios.get(`${API_ROOT}/recipes/${GeneralUtils.camelToKebab(category)}`, { params }),
+  // Schema for normalizing
+  schema: schema.recipeListSchema,
+  // Arguments to inject in begin/end actions
+  payload: { category }
+})
+
 
 // FETCH SEARCH RECIPE ACTIONS
 export const fetchSearchRecipesRequest = () => ({
@@ -139,7 +153,7 @@ export const fetchSearchRecipes = val => async dispatch => {
 
   try {
     dispatch(fetchSearchRecipesRequest());
-    const response = await axios.get(`${API_URL}/api/recipes/search?val=${val}`);
+    const response = await axios.get(`${API_ROOT}/api/recipes/search?val=${val}`);
     // console.log('response')
     // console.log(response)
     const normalizedData = normalize(response.data, schema.recipeListSchema);
@@ -155,3 +169,4 @@ export const fetchSearchRecipes = val => async dispatch => {
     dispatch(ErrorActions.logError(err));
   }
 }
+

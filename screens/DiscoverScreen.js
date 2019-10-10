@@ -49,13 +49,14 @@ const DiscoverScreen = props => {
     popularIsLoading, 
     newIsLoading, 
     fetchRecipes, 
+    loadRecipes,
     navigation 
   } = props;
   
   useEffect(() => {
-    fetchRecipes(RecipeTypes.MOST_LIKED, mostLikedParams);
-    fetchRecipes(RecipeTypes.POPULAR, popularParams);
-    fetchRecipes(RecipeTypes.NEW, newParams);
+    loadRecipes(RecipeTypes.MOST_LIKED, mostLikedParams);
+    loadRecipes(RecipeTypes.POPULAR, popularParams);
+    loadRecipes(RecipeTypes.NEW, newParams);
   }, [])
 
   return (
@@ -289,6 +290,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchRecipes: (category, params, options) => dispatch(RecipeActions.fetchRecipes(category, params, options)),
+  loadRecipes: (category, params, options) => dispatch(RecipeActions.loadRecipes(category, params, options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen);
