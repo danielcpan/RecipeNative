@@ -23,7 +23,7 @@ const RecipeDetailScreen = props => {
     hasErrored, 
     error, 
     recipe, 
-    fetchRecipe, 
+    loadRecipe,
     navigation: {
       state: {
         params: {
@@ -51,11 +51,27 @@ const RecipeDetailScreen = props => {
   // console.log(navigation)
   
   useEffect(() => {
-    if (!GeneralUtils.isRecipeFullyLoaded(props.navigation.state.params)) {
-      console.log('not fully loaded')
-      fetchRecipe(_id, { refresh: true })
-    }
-    else fetchRecipe(_id);
+    // if (!GeneralUtils.isRecipeFullyLoaded(props.navigation.state.params)) {
+    //   console.log('not fully loaded')
+    //   fetchRecipe(_id, { refresh: true })
+    // }
+    // else fetchRecipe(_id);
+    const requiredFields =  [
+      'titleMain',
+      'titleSub',
+      'author', 
+      'calories', 
+      'cookTimeMins', 
+      'ratingCount', 
+      'ratingValue', 
+      'servings', 
+      'thumbnailUrl', 
+      'description', 
+      'ingredientsImageUrl',
+      'ingredients',
+      'instructions',      
+    ]
+    loadRecipe(_id, requiredFields);
   }, [])
 
   return (
@@ -192,7 +208,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipe: (_id, options) => dispatch(RecipeActions.fetchRecipe(_id, options)),
+  loadRecipe: (_id, options) => dispatch(RecipeActions.loadRecipe(_id, options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetailScreen);

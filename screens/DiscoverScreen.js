@@ -48,7 +48,6 @@ const DiscoverScreen = props => {
     mostLikedIsLoading, 
     popularIsLoading, 
     newIsLoading, 
-    fetchRecipes, 
     loadRecipes,
     navigation 
   } = props;
@@ -289,7 +288,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipes: (category, params, options) => dispatch(RecipeActions.fetchRecipes(category, params, options)),
   loadRecipes: (category, params, options) => dispatch(RecipeActions.loadRecipes(category, params, options)),
 });
 

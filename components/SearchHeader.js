@@ -18,14 +18,10 @@ import { getSearchedRecipes } from '../reducers/recipeReducer';
 import { Platform } from '@unimodules/core';
 
 const SearchHeader = props => {
-  const { navigation, fetchSearchRecipes } = props;
-  // const [searchData, setSearchData] = useState('');
+  const { navigation, fetchSearchRecipes, loadSearchedRecipes } = props;
   const handleChangeText = (val) => {
-    console.log('val: ' + val)
-    console.log('typeof: ' + typeof val)
     if (!val) return;
-    fetchSearchRecipes(val.replace(/\s/g, '-'));
-    // setSearchData(val);
+    loadSearchedRecipes(val.replace(/\s/g, '-'));
   }
 
   return (
@@ -66,7 +62,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchSearchRecipes: val => dispatch(RecipeActions.fetchSearchRecipes(val))
+  fetchSearchRecipes: val => dispatch(RecipeActions.fetchSearchRecipes(val)),
+  loadSearchedRecipes: val => dispatch(RecipeActions.loadSearchedRecipes(val)),
+
 });
 
 export default connect(null, mapDispatchToProps)(SearchHeader);

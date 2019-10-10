@@ -38,7 +38,7 @@ const HomeScreen = props => {
     skip: 0,
     limit: 5,
   })  
-  const { mostLikedRecipes, fetchRecipes, loadRecipes } = props;
+  const { mostLikedRecipes, loadRecipes } = props;
 
   useEffect(() => {
     // fetchRecipes('new', newParams);
@@ -255,7 +255,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipes: (category, params, options) => dispatch(RecipeActions.fetchRecipes(category, params, options)),
   loadRecipes: (category, params, options) => dispatch(RecipeActions.loadRecipes(category, params, options))
 });
 

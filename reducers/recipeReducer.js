@@ -48,8 +48,8 @@ const initialState = {
           isLoading: false,
           hasErrored: false,
           error: null,
-          byId: { ...state.byId, ...action.payload },
-          currentId: action.id
+          byId: { ...state.byId, ...action.entities },
+          currentId: action.result
         };
       case FETCH_SEARCH_RECIPES_SUCCESS:
         // console.log('state.byId')
@@ -62,8 +62,8 @@ const initialState = {
           isLoading: false,
           hasErrored: false,
           error: null,
-          byId: { ...action.payload, ...state.byId },
-          searchIds: action.ids
+          byId: { ...action.entities, ...state.byId },
+          searchIds: action.result
         }
       case FETCH_SEARCH_RECIPES_FAILURE:
       case FETCH_RECIPE_FAILURE:
@@ -71,7 +71,7 @@ const initialState = {
           ...state, 
           isLoading: false,
           hasErrored: true, 
-          error: action.payload 
+          error: action.err 
         };
       case FETCH_RECIPES_REQUEST:
         return { 
@@ -103,7 +103,7 @@ const initialState = {
           ...state, 
           [`${action.category}IsLoading`]: false,
           hasErrored: true, 
-          error: action.payload 
+          error: action.err 
         };
       default:
         return state;
