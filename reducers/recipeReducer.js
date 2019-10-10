@@ -1,5 +1,4 @@
 import {
-  LOAD_RECIPE,
   FETCH_RECIPE_REQUEST,
   FETCH_RECIPE_SUCCESS,
   FETCH_RECIPE_FAILURE,
@@ -29,11 +28,6 @@ const initialState = {
 
   export default (state = initialState, action) => {
     switch (action.type) {
-      case LOAD_RECIPE:
-        return {
-          ...state,
-          currentId: action.payload
-        }
       case FETCH_SEARCH_RECIPES_REQUEST:
       case FETCH_RECIPE_REQUEST:
         return { 
@@ -49,21 +43,16 @@ const initialState = {
           hasErrored: false,
           error: null,
           byId: { ...state.byId, ...action.entities },
-          currentId: action.result
+          currentId: action.ids
         };
       case FETCH_SEARCH_RECIPES_SUCCESS:
-        // console.log('state.byId')
-        // console.log(state.byId)
-        // console.log('action.payload')
-        // console.log(action.payload)
-
         return {
           ...state,
           isLoading: false,
           hasErrored: false,
           error: null,
           byId: { ...action.entities, ...state.byId },
-          searchIds: action.result
+          searchIds: action.ids
         }
       case FETCH_SEARCH_RECIPES_FAILURE:
       case FETCH_RECIPE_FAILURE:
@@ -71,7 +60,7 @@ const initialState = {
           ...state, 
           isLoading: false,
           hasErrored: true, 
-          error: action.err 
+          error: action.error
         };
       case FETCH_RECIPES_REQUEST:
         return { 
@@ -80,15 +69,6 @@ const initialState = {
           hasErrored: false, 
           error: null 
         };
-      // case FETCH_RECIPES_SUCCESS:
-      //   return { 
-      //     ...state, 
-      //     [`${action.category}IsLoading`]: false,
-      //     hasErrored: false,
-      //     error: null,
-      //     byId: { ...state.byId, ...action.payload },
-      //     [`${action.category}Ids`]: action.ids,
-      //   };
       case FETCH_RECIPES_SUCCESS:
         return { 
           ...state, 
@@ -96,14 +76,14 @@ const initialState = {
           hasErrored: false,
           error: null,
           byId: { ...state.byId, ...action.entities },
-          [`${action.category}Ids`]: action.result,
+          [`${action.category}Ids`]: action.ids,
         };    
       case FETCH_RECIPES_FAILURE:
         return { 
           ...state, 
           [`${action.category}IsLoading`]: false,
           hasErrored: true, 
-          error: action.err 
+          error: action.error 
         };
       default:
         return state;

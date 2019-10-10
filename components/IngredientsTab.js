@@ -13,7 +13,7 @@ import {
 
 
 const IngredientsTab = props => {
-  const { ingredientsImageUrl, ingredients, isLoading } = props;
+  const { ingredientsImageUrl, ingredients = [], isLoading } = props;
 
   return (
     <View>

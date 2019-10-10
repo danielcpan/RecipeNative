@@ -13,7 +13,10 @@ import {
 
 
 const InstructionsTab = props => {
-  const { instructions, isLoading } = props;
+  const { instructions = [], isLoading } = props;
+
+  console.log('instructions tab')
+  console.log(instructions)
 
   // useEffect(() => {
     

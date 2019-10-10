@@ -14,7 +14,6 @@ import IngredientsTab from '../components/IngredientsTab';
 import InstructionsTab from '../components/InstructionsTab';
 import RecipeDetailsInfoSection from '../components/RecipeDetailsInfoSection';
 import * as RecipeActions from '../actions/recipeActions';
-import * as GeneralUtils from '../utils/general.utils';
 import { getRecipe } from '../reducers/recipeReducer';
 
 const RecipeDetailScreen = props => { 
@@ -39,23 +38,14 @@ const RecipeDetailScreen = props => {
           thumbnailUrl, 
           description, 
           ingredientsImageUrl,
-          ingredients = [],
-          instructions = [],
+          ingredients,
+          instructions,
         }
       }
     }
   } = props;
-
-  // console.log(props)
-  // console.log(props.navigation.state.params)
-  // console.log(navigation)
   
   useEffect(() => {
-    // if (!GeneralUtils.isRecipeFullyLoaded(props.navigation.state.params)) {
-    //   console.log('not fully loaded')
-    //   fetchRecipe(_id, { refresh: true })
-    // }
-    // else fetchRecipe(_id);
     const requiredFields =  [
       'titleMain',
       'titleSub',
