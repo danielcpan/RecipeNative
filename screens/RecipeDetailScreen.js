@@ -2,54 +2,68 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
-import { ScrollView, View, Image, StyleSheet, Platform, Button, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Image, StyleSheet, Platform, ActivityIndicator } from 'react-native';
 import { 
   Text,
   Icon,
-  Body,
   Tabs,
   Tab,
-  ListItem,
-  Content,
 } from 'native-base';
 
 import IngredientsTab from '../components/IngredientsTab';
 import InstructionsTab from '../components/InstructionsTab';
 import RecipeDetailsInfoSection from '../components/RecipeDetailsInfoSection';
 import * as RecipeActions from '../actions/recipeActions';
+import * as GeneralUtils from '../utils/general.utils';
 import { getRecipe } from '../reducers/recipeReducer';
-// import { resetRecipeDetails, fetchRecipeDetails } from '../actions/recipeActions';
 
-const RecipeDetailScreen = props => {
+const RecipeDetailScreen = props => { 
   const { 
-    _id, 
-    titleMain, 
-    titleSub, 
-    author, 
-    calories, 
-    cookTimeMins, 
-    ratingCount, 
-    ratingValue, 
-    servings, 
-    thumbnailUrl, 
-    description, 
-    ingredientsImageUrl,
-    ingredients = [],
-    instructions = [],
-  } = props.navigation.state.params;
-  
-  const { isLoading, hasErroed, error, recipe, fetchRecipe } = props;
+    isLoading, 
+    hasErrored, 
+    error, 
+    recipe, 
+    fetchRecipe, 
+    navigation: {
+      state: {
+        params: {
+          _id, 
+          titleMain, 
+          titleSub, 
+          author, 
+          calories, 
+          cookTimeMins, 
+          ratingCount, 
+          ratingValue, 
+          servings, 
+          thumbnailUrl, 
+          description, 
+          ingredientsImageUrl,
+          ingredients = [],
+          instructions = [],
+        }
+      }
+    }
+  } = props;
+
+  // console.log(props)
+  // console.log(props.navigation.state.params)
+  // console.log(navigation)
   
   useEffect(() => {
-    fetchRecipe(_id);
+    if (!GeneralUtils.isRecipeFullyLoaded(props.navigation.state.params)) {
+      console.log('not fully loaded')
+      fetchRecipe(_id, { refresh: true })
+    }
+    else fetchRecipe(_id);
   }, [])
 
   return (
     <ScrollView>
       <View style={styles.container}>
         <View>
-          <Text style={styles.headerTitle}>{titleMain}</Text>
-          <Text note style={styles.subHeaderTitle}>{titleSub}</Text>        
+          <Text style={styles.headerTitle}>{titleMain || (recipe && recipe.titleMain)}</Text>
+          <Text note style={styles.subHeaderTitle}>{titleSub || (recipe && recipe.titleSub)}</Text>        
         </View>
         <View>
           <Text style={{ paddingTop: 7.5}}>Test</Text>
@@ -60,14 +74,14 @@ const RecipeDetailScreen = props => {
         <View style={styles.starRating}>
           <StarRating
             maxStars={5}
-            rating={ratingValue}
+            rating={ratingValue || (recipe && recipe.ratingValue)}
             starSize={16}
             fullStarColor={theme.fullStarColor}
             editing={true}
           />
         </View>
         <View>
-          <Text note style={{paddingLeft: 7.5, fontSize: theme.fontSizeXs}}>({ratingCount} Ratings)</Text>
+          <Text note style={{paddingLeft: 7.5, fontSize: theme.fontSizeXs}}>({ratingCount || (recipe && recipe.ratingCount)} Ratings)</Text>
         </View>
         <View style={{flex: 1, alignSelf: 'flex-end'}}>
           <Icon name={'ios-heart'} style={{ fontSize: theme.fontSizeSm}}/>
@@ -83,9 +97,9 @@ const RecipeDetailScreen = props => {
       
       <View style={{ ...theme.padding(7.5, 30) }}>
         <RecipeDetailsInfoSection 
-          cookTimeMins={cookTimeMins}
-          servings={servings}
-          calories={calories}
+          cookTimeMins={cookTimeMins || (recipe && recipe.cookTimeMins)}
+          servings={servings || (recipe && recipe.servings)}
+          calories={calories || (recipe && recipe.calories)}
         />
       </View>
 
@@ -95,7 +109,7 @@ const RecipeDetailScreen = props => {
         </View>
         <View>
           <Text numberOfLines={5} style={{fontSize: theme.fontSizeXs}}>
-            {description}
+            {description || (recipe && recipe.description)}
           </Text>
         </View>
       </View>
@@ -104,14 +118,14 @@ const RecipeDetailScreen = props => {
         <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: theme.primaryColor}}>
           <Tab heading='Ingredients' activeTextStyle={{ color: theme.primaryColor}}>
             <IngredientsTab 
-              ingredientsImageUrl={ingredientsImageUrl}
-              ingredients={ingredients}
+              ingredientsImageUrl={ingredientsImageUrl || (recipe && recipe.ingredientsImageUrl)}
+              ingredients={ingredients || (recipe && recipe.ingredients)}
               isLoading={isLoading}
             />
           </Tab>
           <Tab heading='Instructions' activeTextStyle={{ color: theme.primaryColor}}>
             <InstructionsTab 
-              instructions={instructions}
+              instructions={instructions || (recipe && recipe.instructions)}
               isLoading={isLoading}
             />
           </Tab>
@@ -121,51 +135,10 @@ const RecipeDetailScreen = props => {
   );
 }
 
-// let BackButton = props => {
-//   console.log(props)
-//   return (
-//     <Icon 
-//       name='ios-arrow-back'
-//     />
-//     // <Button 
-//     //   icon={
-//     //     <Icon
-//     //       name='ios-arrow-back'
-//     //       size={10}
-//     //     />
-//     //   }
-//     //   onPress={() => {
-//     //     props.resetRecipeDetails();
-//     //     props.navigation.goBack();
-//     //   }}
-//     //   title='Back'
-//     //   color={theme.primaryColor}      
-//     // />
-//   )
-// }
-
-// const mapDispatchToProps2 = dispatch => ({
-//   resetRecipeDetails: () => dispatch(resetRecipeDetails()),
-// })
-
-// BackButton = connect(null, mapDispatchToProps2)(BackButton);
-
 RecipeDetailScreen.navigationOptions = props => ({
   headerStyle: {
     borderBottomWidth: 0,
   },
-  // headerLeft: (
-  //   // <BackButton navigation={props.navigation}/>
-  //   <Button
-  //     onPress={() => {
-  //       console.log(props)
-  //       // props.resetRecipeDetails();
-  //       props.navigation.goBack();
-  //     }}
-  //     title='Test'
-  //     color={theme.primaryColor}
-  //   />
-  // ),  
   headerRight: (
     <Icon 
       style={{ paddingRight: 15 }} 
@@ -215,13 +188,11 @@ const mapStateToProps = state => ({
   isLoading: state.recipes.isLoading,
   hasErroed: state.recipes.hasErroed,
   error: state.recipes.error,
-  recipe: getRecipe(state)
+  recipe: getRecipe(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipe: _id => dispatch(RecipeActions.fetchRecipe(_id)),
-  // resetRecipeDetails: () => dispatch(resetRecipeDetails()),
-  // fetchRecipeDetails: _id => dispatch(fetchRecipeDetails(_id)),
+  fetchRecipe: (_id, options) => dispatch(RecipeActions.fetchRecipe(_id, options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetailScreen);

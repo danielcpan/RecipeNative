@@ -5,19 +5,32 @@ import {
   Input,
   Item,
   Icon,
-  Form
+  Form,
+  Text,
+  Button,
 } from 'native-base';
 
 const SearchInput = props => {
+  const { navigation } = props;
 
   return (
-    <View>
-      <Form>
-        <Item regular style={styles.search}>
+    <View >
+      <Button light
+        onPress={() => navigation.push('Search')}>
+        {/* <Icon name='arrow-back' /> */}
+        <Icon name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} />
+        <Text style={{alignSelf: 'flex-start'}}>Search</Text>
+      </Button>
+      {/* <Form> */}
+        {/* <Item regular style={styles.search}>
           <Icon active name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} />
-          <Input placeholder='Search' />
-        </Item>
-      </Form>
+          <Input 
+            // disabled
+            onFocus={() => console.log('searching!')}
+            placeholder='Search' 
+          />
+        </Item> */}
+      {/* </Form> */}
     </View>
   );
 }

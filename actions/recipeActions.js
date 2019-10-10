@@ -2,7 +2,8 @@ import axios from 'axios';
 import { normalize } from 'normalizr';
 import * as schema from '../schema';
 import store from '../store';
-import { camelToKebab } from '../utils/action.utils';
+import * as ErrorActions from './errorActions';
+import * as GeneralUtils from '../utils/general.utils';
 
 import {
   LOAD_RECIPE,
@@ -12,6 +13,9 @@ import {
   FETCH_RECIPES_REQUEST,
   FETCH_RECIPES_SUCCESS,
   FETCH_RECIPES_FAILURE,
+  FETCH_SEARCH_RECIPES_REQUEST,
+  FETCH_SEARCH_RECIPES_SUCCESS,
+  FETCH_SEARCH_RECIPES_FAILURE,
 } from '../constants/actionTypes';
 
 const env = process.env.NODE_ENV || 'development';
@@ -38,14 +42,14 @@ export const fetchRecipeFailure = err => ({
   payload: err,
 })
 
-export const fetchRecipe = _id => async dispatch => {
+export const fetchRecipe = (_id, options = {}) => async dispatch => {
   const currentRecipeId =  store.getState().recipes.currentId;
 
-  if (currentRecipeId === _id) return;
+  if (currentRecipeId === _id && !options.refresh) return;
   const recipeId = store.getState().recipes.byId[_id];
 
   // Return cached if exists
-  if (recipeId) {
+  if (recipeId && !options.refresh) {
     dispatch(loadRecipe(_id));
     return;
   }
@@ -61,7 +65,7 @@ export const fetchRecipe = _id => async dispatch => {
     // API Errors
     if (err.response) dispatch(fetchRecipeFailure(err.response.data));
     // General Errors
-    dispatch(logError(err));
+    dispatch(ErrorActions.logError(err));
   }
 }
 
@@ -92,7 +96,7 @@ export const fetchRecipes = (category, params, options = {}) => async dispatch =
 
   try {
     dispatch(fetchRecipesRequest(category));
-    const response = await axios.get(`${API_URL}/api/recipes/${camelToKebab(category)}`, { params });
+    const response = await axios.get(`${API_URL}/api/recipes/${GeneralUtils.camelToKebab(category)}`, { params });
     const normalizedData = normalize(response.data, schema.recipeListSchema);
     const { entities: { recipes }, result } = normalizedData;
 
@@ -101,6 +105,53 @@ export const fetchRecipes = (category, params, options = {}) => async dispatch =
     // API Errors
     if (err.response) dispatch(fetchRecipesFailure(category, err.response.data));
     // General Errors
-    dispatch(logError(err));
+    dispatch(ErrorActions.logError(err));
+  }
+}
+
+// FETCH SEARCH RECIPE ACTIONS
+export const fetchSearchRecipesRequest = () => ({
+  type: FETCH_SEARCH_RECIPES_REQUEST,
+})
+
+export const fetchSearchRecipesSuccess = (recipes, ids) => ({
+  type: FETCH_SEARCH_RECIPES_SUCCESS,
+  payload: recipes,
+  ids
+})
+
+export const fetchSearchRecipesFailure = err => ({
+  type: FETCH_SEARCH_RECIPES_FAILURE,
+  payload: err,
+})
+
+export const fetchSearchRecipes = val => async dispatch => {
+  // const currentRecipeId =  store.getState().recipes.currentId;
+
+  // if (currentRecipeId === _id) return;
+  // const recipeId = store.getState().recipes.byId[_id];
+
+  // // Return cached if exists
+  // if (recipeId) {
+  //   dispatch(loadRecipe(_id));
+  //   return;
+  // }
+
+  try {
+    dispatch(fetchSearchRecipesRequest());
+    const response = await axios.get(`${API_URL}/api/recipes/search?val=${val}`);
+    // console.log('response')
+    // console.log(response)
+    const normalizedData = normalize(response.data, schema.recipeListSchema);
+    // console.log('normalizedData')
+    // console.log(normalizedData)
+    const { entities: { recipes }, result } = normalizedData;
+
+    dispatch(fetchSearchRecipesSuccess(recipes, result));
+  } catch (err) {
+    // API Errors
+    if (err.response) dispatch(fetchSearchRecipesFailure(err.response.data));
+    // General Errors
+    dispatch(ErrorActions.logError(err));
   }
 }

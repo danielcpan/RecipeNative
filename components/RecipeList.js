@@ -18,10 +18,6 @@ import {
 
 const RecipeList = props => {
   const { data, isLoading, handleEnd, navigation, autoLoadMore } = props;
-  // console.log("data")
-  // console.log(data)
-  // console.log('test')
-  // console.log(props.navigation)
 
   return (
     <FlatList 

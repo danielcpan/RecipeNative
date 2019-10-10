@@ -40,7 +40,17 @@ const DiscoverScreen = props => {
     skip: 0,
     limit: 5,
   })
-  const { mostLikedRecipes, popularRecipes, newRecipes, mostLikedIsLoading, popularIsLoading, newIsLoading, fetchRecipes } = props;
+
+  const { 
+    mostLikedRecipes, 
+    popularRecipes, 
+    newRecipes, 
+    mostLikedIsLoading, 
+    popularIsLoading, 
+    newIsLoading, 
+    fetchRecipes, 
+    navigation 
+  } = props;
   
   useEffect(() => {
     fetchRecipes(RecipeTypes.MOST_LIKED, mostLikedParams);
@@ -55,7 +65,7 @@ const DiscoverScreen = props => {
       </View>
 
       <View style={styles.container}>
-        <SearchInput />
+        <SearchInput navigation={navigation} />
       </View>
 
       <View>
@@ -129,7 +139,7 @@ const DiscoverScreen = props => {
         <RecipeList 
           data={popularRecipes}
           isLoading={popularIsLoading}
-          navigation={props.navigation}
+          navigation={navigation}
           autoLoadMore={false}
         />
       </View>
@@ -144,7 +154,7 @@ const DiscoverScreen = props => {
         <RecipeList 
           data={popularRecipes}
           isLoading={popularIsLoading}
-          navigation={props.navigation}
+          navigation={navigation}
           autoLoadMore={false}
         />
       </View>
@@ -159,7 +169,7 @@ const DiscoverScreen = props => {
         <RecipeList 
           data={newRecipes}
           isLoading={newIsLoading}
-          navigation={props.navigation}
+          navigation={navigation}
           autoLoadMore={false}
         />
       </View>
@@ -259,7 +269,8 @@ const styles = StyleSheet.create({
   },
   popularCollectionButtonText: {
     fontSize: theme.fontSizeXs, 
-    fontWeight: theme.fontWeightHeavy    
+    fontWeight: theme.fontWeightHeavy,
+    color: 'white'   
   },
   seeMoreText: {
     fontSize: theme.fontSizeXs, 

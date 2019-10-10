@@ -4,6 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
+import SearchScreen from '../screens/SearchScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
@@ -43,6 +44,7 @@ const DiscoverStack = createStackNavigator(
   {
     Discover: DiscoverScreen,
     RecipesDetails: RecipeDetailScreen,
+    Search: SearchScreen,
   },
   config
 );
@@ -79,8 +81,9 @@ FavoritesStack.navigationOptions = {
 FavoritesStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
   DiscoverStack,
+  HomeStack,
+  // DiscoverStack,
   // HomeStack,
   // DiscoverStack,
   FavoritesStack,
