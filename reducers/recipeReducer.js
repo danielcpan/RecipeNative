@@ -76,7 +76,7 @@ const initialState = {
           hasErrored: false,
           error: null,
           byId: { ...state.byId, ...action.entities },
-          [`${action.category}Ids`]: action.ids,
+          [`${action.category}Ids`]: [...new Set([...state[`${action.category}Ids`], ...action.ids])],
         };    
       case FETCH_RECIPES_FAILURE:
         return { 

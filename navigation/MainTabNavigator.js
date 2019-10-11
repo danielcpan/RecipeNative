@@ -8,6 +8,7 @@ import SearchScreen from '../screens/SearchScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
+import RecipeListScreen from '../screens/RecipeListScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -45,6 +46,7 @@ const DiscoverStack = createStackNavigator(
     Discover: DiscoverScreen,
     RecipesDetails: RecipeDetailScreen,
     Search: SearchScreen,
+    RecipeList: RecipeListScreen
   },
   config
 );

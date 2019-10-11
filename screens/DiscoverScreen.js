@@ -58,6 +58,11 @@ const DiscoverScreen = props => {
     loadRecipes(RecipeTypes.NEW, newParams);
   }, [])
 
+  const handleSeeMore = (category, recipes) => () => {
+    console.log('handling see more')
+    navigation.push('RecipeList', { category });
+  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -78,7 +83,7 @@ const DiscoverScreen = props => {
           horizontal= {true}
           style={styles.cardList}
         >
-          {mostLikedRecipes.map((item, idx) => (
+          {mostLikedRecipes.slice(0,15).map((item, idx) => (
             <Card transparent key={item._id}>
               <CardItem cardBody>
                 <View style={styles.cardImageContainer}>
@@ -133,11 +138,18 @@ const DiscoverScreen = props => {
         <View style={styles.container}>
           <View style={styles.listHeader}>
             <Text style={styles.subHeaderTitle}>Featured</Text>
-            <Text style={styles.seeMoreText}>SEE MORE</Text>
+            <Button 
+              small
+              dark
+              transparent 
+              onPress={handleSeeMore(RecipeTypes.POPULAR, popularRecipes)}
+            >
+              <Text style={styles.seeMoreText}>SEE MORE</Text>
+            </Button>            
           </View>
         </View>
         <RecipeList 
-          data={popularRecipes}
+          data={popularRecipes.slice(0,5)}
           isLoading={popularIsLoading}
           navigation={navigation}
           autoLoadMore={false}
@@ -148,11 +160,18 @@ const DiscoverScreen = props => {
         <View style={styles.container}>
           <View style={styles.listHeader}>
             <Text style={styles.subHeaderTitle}>Popular</Text>
-            <Text style={styles.seeMoreText}>SEE MORE</Text>
+            <Button 
+              small
+              dark
+              transparent 
+              onPress={handleSeeMore(RecipeTypes.POPULAR, popularRecipes)}
+            >
+              <Text style={styles.seeMoreText}>SEE MORE</Text>
+            </Button>
           </View>
         </View>
         <RecipeList 
-          data={popularRecipes}
+          data={popularRecipes.slice(0,5)}
           isLoading={popularIsLoading}
           navigation={navigation}
           autoLoadMore={false}
@@ -163,11 +182,18 @@ const DiscoverScreen = props => {
         <View style={styles.container}>
           <View style={styles.listHeader}>
             <Text style={styles.subHeaderTitle}>New</Text>
-            <Text style={styles.seeMoreText}>SEE MORE</Text>
+            <Button 
+              small
+              dark
+              transparent 
+              onPress={handleSeeMore(RecipeTypes.NEW, newRecipes)}
+            >
+              <Text style={styles.seeMoreText}>SEE MORE</Text>
+            </Button>
           </View>
         </View>
         <RecipeList 
-          data={newRecipes}
+          data={newRecipes.slice(0,5)}
           isLoading={newIsLoading}
           navigation={navigation}
           autoLoadMore={false}
@@ -274,7 +300,9 @@ const styles = StyleSheet.create({
   },
   seeMoreText: {
     fontSize: theme.fontSizeXs, 
-    fontWeight: theme.fontWeightMedium    
+    fontWeight: theme.fontWeightMedium,
+    paddingLeft: 0,
+    paddingRight: 0,
   }
 });
 

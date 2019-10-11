@@ -1,7 +1,6 @@
 import axios from 'axios';
 import * as Schema from '../schema';
 import * as GeneralUtils from '../utils/general.utils';
-
 import {
   FETCH_RECIPE_REQUEST,
   FETCH_RECIPE_SUCCESS,
@@ -40,8 +39,16 @@ export const loadRecipes = (category, params, options = {}) => ({
   ],
   // Should call if no recipes in cache
   shouldCallAPI: (state) => {
+    console.log('params: ', params);
+    console.log()
+
+    if (options.refresh || options.loadMore) return true;
+
     const recipes = state.recipes[`${category}Ids`];
-    return recipes.length === 0 || options.refresh === true;
+    const { skip, limit } = params;
+    console.log('skip + limit !== recipes.length: ', skip + limit !== recipes.length)
+    return recipes.length === 0 || skip + limit > recipes.length;
+    // return recipes.length === 0;
   },
   callAPI: () => {
     const endpoint = GeneralUtils.camelToKebab(category);

@@ -12,7 +12,13 @@ import {
 } from 'native-base';
 
 const RecipeSearchList = props => {
-  const { data, isLoading, handleEnd, navigation, autoLoadMore } = props;
+  const { 
+    data, 
+    isLoading, 
+    handleEnd, 
+    navigation, 
+    autoLoadMore 
+  } = props;
   
   return (
     <FlatList 

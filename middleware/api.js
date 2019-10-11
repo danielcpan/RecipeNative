@@ -9,7 +9,6 @@ const callApiMiddleware = ({ dispatch, getState }) => next => async action => {
     payload = {}
   } = action;
 
-  console.log(types)
   // Normal action: pass it on
   if (!types) return next(action);
 
