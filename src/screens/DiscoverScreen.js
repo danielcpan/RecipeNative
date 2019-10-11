@@ -83,7 +83,7 @@ const DiscoverScreen = props => {
           horizontal= {true}
           style={styles.cardList}
         >
-          {mostLikedRecipes.slice(0,15).map((item, idx) => (
+          {mostLikedRecipes.slice(0,15).map((item) => (
             <Card transparent key={item._id}>
               <CardItem cardBody>
                 <View style={styles.cardImageContainer}>
