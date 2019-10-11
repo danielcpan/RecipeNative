@@ -30,15 +30,18 @@ const popularCollections = [
 const DiscoverScreen = props => {
   const [mostLikedParams, setMostLikedParams] = useState({
     skip: 0,
-    limit: 15,
+    // limit: 5,
+    limit: 2,
   })
   const [popularParams, setPopularParams] = useState({
     skip: 0,
-    limit: 5,
+    // limit: 5,
+    limit: 2,
   })
   const [newParams, setNewParams] = useState({
     skip: 0,
-    limit: 5,
+    // limit: 5,
+    limit: 2,
   })
 
   const { 
@@ -62,6 +65,15 @@ const DiscoverScreen = props => {
     console.log('handling see more')
     navigation.push('RecipeList', { category });
   }
+
+  // const getRecipeDetails = (item) => {
+  //   let details = ''
+
+  //   if (item.cookTimeMins) details += `${item.cookTimeMins} mins`
+  //   if (item.calories) details += ` ᛫ ${item.calories} calories`
+
+  //   return details;
+  // }  
 
   return (
     <ScrollView>
@@ -96,16 +108,22 @@ const DiscoverScreen = props => {
               </CardItem>
               <CardItem>
                 <Body style={styles.card}>
-                  <Text numberOfLines={1} style={styles.cardTitle}>{item.titleMain}</Text>
+                  <Text numberOfLines={1} style={styles.cardTitle}>{item.titleMain}</Text>            
                   <View style={styles.starRating}>
                     <StarRating
                       disabled={true}
                       maxStars={5}
                       rating={item.ratingValue || 4.5}
-                      starSize={10}
+                      starSize={15}
                       fullStarColor={theme.fullStarColor}
                     />
-                  </View>
+                    <Text 
+                      note 
+                      numberOfLines={1} 
+                      style={{ fontSize: 12, width: 90 }}>
+                        {` ${item.ratingCount} ratings`}
+                    </Text>                          
+                  </View>                  
                 </Body>
               </CardItem>
             </Card>

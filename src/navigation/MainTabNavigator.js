@@ -84,7 +84,7 @@ FavoritesStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   DiscoverStack,
-  HomeStack,
+  // HomeStack,
   // DiscoverStack,
   // HomeStack,
   // DiscoverStack,

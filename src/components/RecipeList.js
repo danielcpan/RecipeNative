@@ -1,7 +1,6 @@
 import React from 'react';
 import StarRating from 'react-native-star-rating';
 import {
-  Platform,
   FlatList,
   ActivityIndicator,
   View,
@@ -12,8 +11,6 @@ import {
   Text, 
   Left, 
   Body, 
-  Right, 
-  Icon 
 } from 'native-base';
 
 const RecipeList = props => {
@@ -43,27 +40,25 @@ const RecipeList = props => {
           <Thumbnail square source={{ uri: item.thumbnailUrl }} style={{ borderRadius: 10, height: 60, width: 60 }}/>
         </Left>
         <Body>
-          <Text style={{fontWeight: 'bold'}}>{item.titleMain}</Text>
+          <Text numberOfLines={1} style={{fontWeight: 'bold'}}>{item.titleMain}</Text>
           <Text note numberOfLines={1}>{item.titleSub}</Text>
           <View style={{ flexDirection: 'row'}}>
             <StarRating
               disabled={true}
               maxStars={5}
               rating={item.ratingValue}
-              starSize={10}
+              starSize={15}
               fullStarColor={'#f8ce0b'}
               // selectedStar={(rating) => this.onStarRatingPress(rating)}
             />
+            <Text 
+              note 
+              numberOfLines={1}
+            >
+              {` ${item.ratingCount} ratings`}
+            </Text>
           </View>
         </Body>
-        <Right>
-          {(item.cookTimeMins) && (
-            <View>
-              <Icon name={Platform.OS === 'ios' ? 'ios-time' : 'md-time'} style={{textAlign: 'center'}}/>
-              <Text>{item.cookTimeMins} min</Text>
-            </View>
-          )}
-        </Right>
       </ListItem>              
     )}
   />    
