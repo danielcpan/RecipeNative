@@ -28,7 +28,8 @@ import { getRecipes } from '../reducers/recipeReducer';
 const HomeScreen = props => {
   const [mostLikedParams, setMostLikedParams] = useState({
     skip: 0,
-    limit: 15,
+    // limit: 15,
+    limit: 2,
   })
   const [popularParams, setPopularParams] = useState({
     skip: 0,
@@ -208,8 +209,8 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     borderRadius: 10, 
-    height: 300,
-    width: 225
+    height: 200,
+    width: 350
   },
   cardTitle: {
     fontSize: theme.fontSizeXs,

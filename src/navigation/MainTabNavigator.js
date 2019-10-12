@@ -9,10 +9,26 @@ import DiscoverScreen from '../screens/DiscoverScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
 import RecipeListScreen from '../screens/RecipeListScreen';
+import { Icon, Picker } from 'native-base';
+import SettingsMenu from '../components/SettingsMenu';
+
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
-  default: {},
+  default: {
+    defaultNavigationOptions: {
+      headerStyle: {
+        borderBottomWidth: 0,
+      },
+      headerRight: (
+        // <Icon 
+        //   style={{ marginRight: 15, transform: [{ rotate: '90deg'}] }} 
+        //   name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} 
+        // />
+        <SettingsMenu />
+      )
+    },
+  },
 });
 
 const RecipesDetailsStack = createStackNavigator(
@@ -44,7 +60,7 @@ HomeStack.path = '';
 const DiscoverStack = createStackNavigator(
   {
     Discover: DiscoverScreen,
-    RecipesDetails: RecipeDetailScreen,
+    RecipeDetails: RecipeDetailScreen,
     Search: SearchScreen,
     RecipeList: RecipeListScreen
   },
@@ -84,7 +100,7 @@ FavoritesStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   DiscoverStack,
-  // HomeStack,
+  HomeStack,
   // DiscoverStack,
   // HomeStack,
   // DiscoverStack,

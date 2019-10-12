@@ -31,7 +31,7 @@ const RecipeList = props => {
     ListFooterComponent={() => (isLoading) ? <ActivityIndicator animating /> : null}
     renderItem={({ item }) => (
       <ListItem 
-        onPress={() => navigation.push('RecipesDetails', item)}
+        onPress={() => navigation.push('RecipeDetails', item)}
         thumbnail 
         noBorder 
         style={{height: 75}}

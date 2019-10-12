@@ -12,17 +12,17 @@ const RecipeDetailsInfoSection = props => {
 
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <Text note>Time</Text>
         <Text style={{ fontWeight: theme.fontWeightHeavy}}>{cookTimeMins} mins</Text>
       </View>
 
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <Text note>Servings</Text>
         <Text style={{ fontWeight: theme.fontWeightHeavy}}>{servings}</Text>
       </View>
 
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <Text note>Nutrition</Text>
         <Text style={{ fontWeight: theme.fontWeightHeavy}}>{calories} Cal</Text>
       </View>

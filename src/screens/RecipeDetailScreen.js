@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
-import { ScrollView, View, Image, StyleSheet, Platform, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Image, StyleSheet, Platform, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { 
   Text,
   Icon,
   Tabs,
   Tab,
+  Button,
 } from 'native-base';
 
 import IngredientsTab from '../components/IngredientsTab';
@@ -64,6 +65,8 @@ const RecipeDetailScreen = props => {
     loadRecipe(_id, requiredFields);
   }, [])
 
+  const [isFavorite, setIsFavorite] = React.useState(false);
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -76,21 +79,24 @@ const RecipeDetailScreen = props => {
         </View>
       </View>
 
-      <View style={{ flex: 1, flexDirection: 'row', alignContent: 'center', ...theme.padding(7.5, 15, 7.5, 15)}}>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignContent: 'center', alignItems: 'flex-end', ...theme.padding(0, 15, 7.5)}}>
         <View style={styles.starRating}>
           <StarRating
             maxStars={5}
             rating={ratingValue || (recipe && recipe.ratingValue)}
-            starSize={16}
+            starSize={24}
             fullStarColor={theme.fullStarColor}
             editing={true}
           />
+          <Text note style={{paddingLeft: 7.5, fontSize: theme.fontSizeXs, alignSelf: 'flex-end'}}>({ratingCount || (recipe && recipe.ratingCount)} Ratings)</Text>
         </View>
         <View>
-          <Text note style={{paddingLeft: 7.5, fontSize: theme.fontSizeXs}}>({ratingCount || (recipe && recipe.ratingCount)} Ratings)</Text>
-        </View>
-        <View style={{flex: 1, alignSelf: 'flex-end'}}>
-          <Icon name={'ios-heart'} style={{ fontSize: theme.fontSizeSm}}/>
+          <TouchableOpacity onPress={() => setIsFavorite(prevState => !prevState)}>
+            <Icon 
+              name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
+              style={{ fontSize: theme.fontSizeMd, color: isFavorite ? 'red' : 'black'}}
+            />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -141,16 +147,8 @@ const RecipeDetailScreen = props => {
   );
 }
 
-RecipeDetailScreen.navigationOptions = props => ({
-  headerStyle: {
-    borderBottomWidth: 0,
-  },
-  headerRight: (
-    <Icon 
-      style={{ paddingRight: 15 }} 
-      name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} 
-    />
-  )
+RecipeDetailScreen.navigationOptions = (props) => ({
+
 });
 
 const styles = StyleSheet.create({

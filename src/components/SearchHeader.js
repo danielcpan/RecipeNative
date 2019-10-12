@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import theme from '../constants/theme'
 
@@ -14,11 +15,10 @@ import {
 
 import * as RecipeActions from '../actions/recipeActions';
 import * as GeneralUtils from '../utils/general.utils';
-import { getSearchedRecipes } from '../reducers/recipeReducer';
-import { Platform } from '@unimodules/core';
 
 const SearchHeader = props => {
-  const { navigation, fetchSearchRecipes, loadSearchedRecipes } = props;
+  const { navigation, loadSearchedRecipes } = props;
+
   const handleChangeText = (val) => {
     if (!val) return;
     loadSearchedRecipes(val.replace(/\s/g, '-'));
@@ -37,7 +37,6 @@ const SearchHeader = props => {
           isFocused
           style={{ borderWidth: 0 }}
           onChangeText={GeneralUtils.debounce(handleChangeText, 1000)}
-          // value={searchData}
           placeholder='Search' 
         />
         <Icon name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} />
@@ -57,12 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
-  recipes: getSearchedRecipes(state)
-});
-
 const mapDispatchToProps = dispatch => ({
-  fetchSearchRecipes: val => dispatch(RecipeActions.fetchSearchRecipes(val)),
   loadSearchedRecipes: val => dispatch(RecipeActions.loadSearchedRecipes(val)),
 
 });

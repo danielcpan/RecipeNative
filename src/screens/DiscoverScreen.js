@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/theme';
 import StarRating from 'react-native-star-rating';
-import { ScrollView, View, StyleSheet, Platform } from 'react-native';
+import { ScrollView, View, StyleSheet, Platform, Picker } from 'react-native';
 import { 
   Text,
   Icon,
@@ -28,22 +28,6 @@ const popularCollections = [
 ]
 
 const DiscoverScreen = props => {
-  const [mostLikedParams, setMostLikedParams] = useState({
-    skip: 0,
-    // limit: 5,
-    limit: 2,
-  })
-  const [popularParams, setPopularParams] = useState({
-    skip: 0,
-    // limit: 5,
-    limit: 2,
-  })
-  const [newParams, setNewParams] = useState({
-    skip: 0,
-    // limit: 5,
-    limit: 2,
-  })
-
   const { 
     mostLikedRecipes, 
     popularRecipes, 
@@ -54,6 +38,24 @@ const DiscoverScreen = props => {
     loadRecipes,
     navigation 
   } = props;
+
+  const [mostLikedParams, setMostLikedParams] = useState({
+    skip: 0,
+    // limit: 5,
+    limit: 1,
+  })
+  const [popularParams, setPopularParams] = useState({
+    skip: 0,
+    // limit: 5,
+    limit: 1,
+  })
+  const [newParams, setNewParams] = useState({
+    skip: 0,
+    // limit: 5,
+    limit: 1,
+  })
+
+  const [language, setLanguage] = useState('JavaScript');
   
   useEffect(() => {
     loadRecipes(RecipeTypes.MOST_LIKED, mostLikedParams);
@@ -222,15 +224,14 @@ const DiscoverScreen = props => {
 }
 
 DiscoverScreen.navigationOptions = {
-  headerTitle: <Text style={{ fontSize: theme.fontSizeMd, fontFamily: 'vincHand' }}>Made From Scratch</Text>,
-  headerStyle: {
-    borderBottomWidth: 0,
-  },
-  headerRight: (
-    <Icon 
-      style={{ paddingRight: 15 }} 
-      name={Platform.OS === 'ios' ? 'ios-more' : 'md-more-horiz'} 
-    />
+  headerTitle: (
+    <Text 
+      style={{ 
+        fontSize: theme.fontSizeMd, 
+        fontFamily: 'vincHand' }}
+      >
+        Made From Scratch
+      </Text>
   )
 };
 
