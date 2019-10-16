@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import theme from '../constants/theme';
-import StarRating from 'react-native-star-rating';
 import { ScrollView, View, StyleSheet, Platform } from 'react-native';
 import { 
   Text,
 } from 'native-base';
 import RecipeList from '../components/RecipeList';
 
-import * as RecipeTypes from '../constants/recipeTypes';
 import * as RecipeActions from '../actions/recipeActions';
 import { getRecipes } from '../reducers/recipeReducer';
 
@@ -33,7 +31,9 @@ const RecipeListScreen = props => {
 
   const handleEnd = () => {
     console.log('handling end!')
-    setParams({ ...params, skip: params.skip += 10})
+    if (!isLoading) {
+      setParams({ ...params, skip: params.skip += 10})
+    }
   }
 
   // console.log('props')
@@ -41,8 +41,10 @@ const RecipeListScreen = props => {
   
   useEffect(() => {
     // Need to fix how more loads
-    console.log('loading more?')
-    loadRecipes(category, params);
+    // if (!isLoading) {
+      console.log('loading more?')
+      loadRecipes(category, params);  
+    // }
   }, [params])
 
   return (

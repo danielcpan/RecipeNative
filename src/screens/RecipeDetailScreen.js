@@ -74,9 +74,6 @@ const RecipeDetailScreen = props => {
           <Text style={styles.headerTitle}>{titleMain || (recipe && recipe.titleMain)}</Text>
           <Text note style={styles.subHeaderTitle}>{titleSub || (recipe && recipe.titleSub)}</Text>        
         </View>
-        <View>
-          <Text style={{ paddingTop: 7.5}}>Test</Text>
-        </View>
       </View>
 
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignContent: 'center', alignItems: 'flex-end', ...theme.padding(0, 15, 7.5)}}>

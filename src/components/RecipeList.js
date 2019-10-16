@@ -12,6 +12,7 @@ import {
   Left, 
   Body, 
 } from 'native-base';
+import theme from '../constants/theme';
 
 const RecipeList = props => {
   const { 
@@ -48,7 +49,8 @@ const RecipeList = props => {
               maxStars={5}
               rating={item.ratingValue}
               starSize={15}
-              fullStarColor={'#f8ce0b'}
+              // fullStarColor={'#f8ce0b'}
+              fullStarColor={theme.fullStarColor}
               // selectedStar={(rating) => this.onStarRatingPress(rating)}
             />
             <Text 

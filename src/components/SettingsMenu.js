@@ -1,8 +1,9 @@
 import React from 'react';
 // import { ExpoConfigView } from '@expo/samples';
 import { View, Platform, TouchableOpacity } from 'react-native';
-import { Icon, Text } from 'native-base';
+import { Icon, Text, Radio } from 'native-base';
 import { withNavigation } from 'react-navigation';
+import theme from '../constants/theme';
 
 
 const SettingsMenu = (props) => {
@@ -10,6 +11,10 @@ const SettingsMenu = (props) => {
   const [settings, setSettings] = React.useState({
 
   })
+
+  const [selected, setSelected] = React.useState('ratings');
+
+
   
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
 
@@ -19,16 +24,26 @@ const SettingsMenu = (props) => {
 
   console.log(navigation);
 
+  const getIcon = (type) => {
+    if (type === selected) {
+      return Platform.OS === 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'
+    } else {
+      return Platform.OS === 'ios' ? 'ios-checkmark-circle-outline' : 'md-checkmark-circle-outline'
+    }
+  }
+
   return (
     <View>
-      <Icon 
-        onPress={() => setIsMenuVisible(!isMenuVisible)}
-        style={{ fontSize: 22, marginRight: 15, transform: [{ rotate: '90deg'}] }} 
-        name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} 
-      />
+      <TouchableOpacity>
+        <Icon 
+          onPress={() => setIsMenuVisible(!isMenuVisible)}
+          style={{ fontSize: 22, marginRight: 15, transform: [{ rotate: '90deg'}] }} 
+          name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} 
+        />
+      </TouchableOpacity>
       <View style={{ position: 'absolute', right: 2, top: 25}}>
         {isMenuVisible && (
-          <View style={{ backgroundColor: 'gray', width: 175, padding: 2.5, borderRadius: 5}}>
+          <View style={{ backgroundColor: 'white', width: 175, padding: 2.5, borderRadius: 5, borderColor: theme.primaryBackgroundColor, borderWidth: 2}}>
             {(navigation.state.routeName === 'RecipeDetails') && (
               <View>
                 <TouchableOpacity style={{padding: 10}}>
@@ -41,22 +56,37 @@ const SettingsMenu = (props) => {
 
             {(navigation.state.routeName === 'Discover') && (
               <View>
-                <TouchableOpacity style={{padding: 10}}>
-                  <Text>
-                    Ratings
-                  </Text>
+                <TouchableOpacity 
+                  style={{padding: 10, display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between', alignItems: 'center'}}
+                  onPress={() => setSelected('ratings')}
+                >
+                  <Text style={{ color: theme.primaryColor, fontWeight: theme.fontWeightHeavy }}>Ratings</Text>
+                  <Icon
+                    name={getIcon('ratings')} 
+                    style={{ color: (selected === 'ratings' ? theme.primaryColor : theme.secondaryColor)}}
+                  />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{padding: 10}}>
-                  <Text>
-                    Calories
-                  </Text>
+                <TouchableOpacity 
+                  style={{padding: 10, display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between', alignItems: 'center'}}
+                  onPress={() => setSelected('calories')}
+                >
+                  <Text style={{ color: theme.primaryColor, fontWeight: theme.fontWeightHeavy }}>Calories</Text>
+                  <Icon
+                    name={getIcon('calories')} 
+                    style={{ color: (selected === 'calories' ? theme.primaryColor : theme.secondaryColor)}}
+                  />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{padding: 10}}>
-                  <Text>
-                    Mins
-                  </Text>
+                <TouchableOpacity 
+                  style={{padding: 10, display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between', alignItems: 'center'}}
+                  onPress={() => setSelected('mins')}
+                >
+                  <Text style={{ color: theme.primaryColor, fontWeight: theme.fontWeightHeavy }}>Mins</Text>
+                  <Icon
+                    name={getIcon('mins')} 
+                    style={{ color: (selected === 'mins' ? theme.primaryColor : theme.secondaryColor)}}
+                  />                  
                 </TouchableOpacity>
               </View>
             )}
